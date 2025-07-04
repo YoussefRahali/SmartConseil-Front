@@ -1,0 +1,20 @@
+.welcome-header {
+  background: linear-gradient(to right, #2563eb, #1e40af); /* bleu dégradé */
+  color: white;
+  padding: 30px 40px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.welcome-header h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  color: white;
+}
+
+.welcome-header p {
+  font-size: 16px;
+  margin: 0;
+  opacity: 0.9;
+}
