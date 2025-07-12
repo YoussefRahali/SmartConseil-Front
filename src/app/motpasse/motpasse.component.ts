@@ -2,9 +2,10 @@ import { Component,OnInit } from '@angular/core';
 import { UtilisateurService } from '../utilisateur/utilisateur.service';
 
 @Component({
-  selector: 'app-motpasse',
-  templateUrl: './motpasse.component.html',
-  styleUrls: ['./motpasse.component.css']
+    selector: 'app-motpasse',
+    templateUrl: './motpasse.component.html',
+    styleUrls: ['./motpasse.component.css'],
+    standalone: false
 })
 export class MotpasseComponent implements OnInit {
 email: string = '';

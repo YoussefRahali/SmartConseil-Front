@@ -8,16 +8,18 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { UtilisateurService } from './utilisateur.service';
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { Utilisateur } from './utilisateur';
+import { Utilisateur } from './Utilisateur';
 import { Subject } from 'rxjs';
 import { WebcamImage } from 'ngx-webcam';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-utilisateur',
-  templateUrl: './utilisateur.component.html',
-  styleUrls: ['./utilisateur.component.css']
+    selector: 'app-utilisateur',
+    templateUrl: './utilisateur.component.html',
+    styleUrls: ['./utilisateur.component.css'],
+    standalone: false
 })
 export class UtilisateurComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('video') videoElementRef!: ElementRef<HTMLVideoElement>;
@@ -36,7 +38,12 @@ export class UtilisateurComponent implements OnInit, AfterViewInit, OnChanges {
  webcamImage: WebcamImage | null = null;
   user: Utilisateur = new Utilisateur();
 
-  constructor(private userService: UtilisateurService, private router: Router,private http: HttpClient) {}
+  constructor(
+    private userService: UtilisateurService,
+    private authService: AuthService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     localStorage.clear();
@@ -76,16 +83,12 @@ export class UtilisateurComponent implements OnInit, AfterViewInit, OnChanges {
       return;
     }
 
-    const user = { email: this.email, password: this.password };
+    const loginRequest = { email: this.email, password: this.password };
 
-    this.userService.login(user).subscribe(
+    this.userService.login(loginRequest).subscribe(
       (response) => {
-        sessionStorage.setItem('token', response.token);
-        sessionStorage.setItem('username', response.username);
-        sessionStorage.setItem('id', response.id);
-        sessionStorage.setItem('role', response.role);
-
-        this.router.navigate(['/dashboard']);
+        // The AuthService will handle storing the user data and redirecting
+        this.authService.redirectToDashboard();
       },
       (error) => {
         console.error('Erreur de connexion :', error);

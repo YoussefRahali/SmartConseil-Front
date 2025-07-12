@@ -1,12 +1,14 @@
 import { Component,OnInit } from '@angular/core';
-import { Utilisateur } from '../utilisateur/utilisateur';
+import { Utilisateur } from '../utilisateur/Utilisateur';
 import { HttpClient } from '@angular/common/http';
 import { UtilisateurService } from '../utilisateur/utilisateur.service';
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css'],
+    standalone: false
 })
 export class DashboardComponent implements OnInit {
 
@@ -37,7 +39,12 @@ isModalOpen = false;
     'ML',
     'GC'
   ];
-  constructor(private http: HttpClient,private authservice:UtilisateurService,private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private authservice:UtilisateurService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   openModal() {
     this.isModalOpen = true;
@@ -143,6 +150,13 @@ isModalOpen = false;
     }
   }
   ngOnInit(): void {
+    // Check if user is authenticated and redirect to appropriate dashboard
+    if (this.authService.isAuthenticated()) {
+      this.authService.redirectToDashboard();
+    } else {
+      this.router.navigate(['/utilisateur']);
+    }
+
     this.sessionData = {
       token: sessionStorage.getItem('token'),
       username: sessionStorage.getItem('username'),

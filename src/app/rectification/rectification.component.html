@@ -1,0 +1,28 @@
+<h2>Demande de rectification</h2>
+<form (ngSubmit)="submit()">
+  <input type="text" [(ngModel)]="formData.etudiantNom" name="etudiantNom" placeholder="Nom de l'étudiant" required />
+  <input type="text" [(ngModel)]="formData.classe" name="classe" placeholder="Classe" required />
+  <input type="text" [(ngModel)]="formData.option" name="option" placeholder="Option" required />
+  <input type="number" [(ngModel)]="formData.ancienneNote" name="ancienneNote" placeholder="Ancienne note" required />
+  <input type="number" [(ngModel)]="formData.nouvelleNote" name="nouvelleNote" placeholder="Nouvelle note" required />
+  <input type="text" [(ngModel)]="formData.justification" name="justification" placeholder="Justification" required />
+  <button type="submit">Soumettre</button>
+</form>
+
+<hr />
+
+<h3>Historique</h3>
+<table>
+  <tr>
+    <th>Étudiant</th>
+    <th>Ancienne</th>
+    <th>Nouvelle</th>
+    <th>Status</th>
+  </tr>
+  <tr *ngFor="let r of rectifications">
+    <td>{{ r.etudiantNom }}</td>
+    <td>{{ r.ancienneNote }}</td>
+    <td>{{ r.nouvelleNote }}</td>
+    <td>{{ r.status }}</td>
+  </tr>
+</table>

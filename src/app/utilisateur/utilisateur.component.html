@@ -23,7 +23,7 @@
         <!-- Email -->
         <label for="email">Adresse email</label>
         <div class="input-group">
-          <span class="icon">@</span>
+          <span class="icon">&#64;</span>
           <input
             type="email"
             [(ngModel)]="email"
@@ -113,8 +113,13 @@
           </p>
 
         <div class="forgot-link">
-        <a [routerLink]="['/motpasseoublie']">Mot de passe oublié ?</a>
+          <a [routerLink]="['/motpasseoublie']">Mot de passe oublié ?</a>
+        </div>
 
+        <div class="admin-setup-link" style="text-align: center; margin-top: 15px;">
+          <a [routerLink]="['/admin-setup']" style="color: #666; font-size: 14px; text-decoration: none;">
+            🔧 Configuration initiale du système
+          </a>
         </div>
       </div>
     </div>
