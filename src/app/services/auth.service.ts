@@ -126,6 +126,8 @@ export class AuthService {
       this.router.navigate(['/dashboard-enseignant']);
     } else if (role === 'chef departement') {
       this.router.navigate(['/dashboard-chef']);
+    } else if (role === 'rapporteur') {
+      this.router.navigate(['/dashboard-rapporteur']);
     } else {
       this.router.navigate(['/dashboard']);
     }

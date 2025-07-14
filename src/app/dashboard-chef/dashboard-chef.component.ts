@@ -127,6 +127,10 @@ export class DashboardChefComponent implements OnInit {
     this.router.navigate(['/profile']);
   }
 
+  navigateToRectificationManagement(): void {
+    this.router.navigate(['/rectification-management']);
+  }
+
   navigateToReports(): void {
     this.router.navigate(['/reports']);
   }

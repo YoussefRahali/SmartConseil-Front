@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Rectification, RectificationService } from './rectification.service';
+import { Rectification, RectificationService, RectificationRequest, RectificationResponse } from './rectification.service';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -9,8 +9,9 @@ import { AuthService } from '../services/auth.service';
     standalone: false
 })
 export class RectificationComponent implements OnInit {
-  rectifications: Rectification[] = [];
-  formData: Rectification = {
+  rectifications: RectificationResponse[] = [];
+  formData: RectificationRequest = {
+    etudiantPrenom: '',
     etudiantNom: '',
     classe: '',
     option: '',
@@ -37,6 +38,7 @@ export class RectificationComponent implements OnInit {
   submit() {
     this.rectificationService.create(this.formData).subscribe(() => {
       this.formData = {
+        etudiantPrenom: '',
         etudiantNom: '',
         classe: '',
         option: '',

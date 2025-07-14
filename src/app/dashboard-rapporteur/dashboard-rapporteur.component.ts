@@ -3,12 +3,12 @@ import { AuthService, User } from '../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-dashboard-enseignant',
-  templateUrl: './dashboard-enseignant.component.html',
-  styleUrls: ['./dashboard-enseignant.component.css'],
+  selector: 'app-dashboard-rapporteur',
+  templateUrl: './dashboard-rapporteur.component.html',
+  styleUrls: ['./dashboard-rapporteur.component.css'],
   standalone: false
 })
-export class DashboardEnseignantComponent implements OnInit {
+export class DashboardRapporteurComponent implements OnInit {
   currentUser: User | null = null;
 
   constructor(
@@ -19,8 +19,8 @@ export class DashboardEnseignantComponent implements OnInit {
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
-      // Redirect if user is not enseignant
-      if (user && user.role !== 'enseignant') {
+      // Redirect if user is not rapporteur
+      if (user && user.role !== 'rapporteur') {
         this.authService.redirectToDashboard();
       }
     });
@@ -30,12 +30,8 @@ export class DashboardEnseignantComponent implements OnInit {
     this.authService.logout();
   }
 
-  navigateToRectification(): void {
-    this.router.navigate(['/rectification']);
-  }
-
-  navigateToGradeCorrection(): void {
-    this.router.navigate(['/grade-correction']);
+  navigateToReportManagement(): void {
+    this.router.navigate(['/report-management']);
   }
 
   navigateToProfile(): void {

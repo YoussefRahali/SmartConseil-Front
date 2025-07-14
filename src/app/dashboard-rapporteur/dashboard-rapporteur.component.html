@@ -18,7 +18,7 @@
       <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
         <ul id="sidebarnav">
           <li class="nav-small-cap">
-            <span class="hide-menu">Tableau de Bord Enseignant</span>
+            <span class="hide-menu">Tableau de Bord Rapporteur</span>
           </li>
 
           <li class="sidebar-item">
@@ -29,9 +29,9 @@
           </li>
 
           <li class="sidebar-item">
-            <a class="sidebar-link" (click)="navigateToGradeCorrection()" aria-expanded="false">
-              <i class="ti ti-edit"></i>
-              <span class="hide-menu">Rectification des Notes</span>
+            <a class="sidebar-link" (click)="navigateToReportManagement()" aria-expanded="false">
+              <i class="ti ti-file-text"></i>
+              <span class="hide-menu">Gestion des Rapports</span>
             </a>
           </li>
 
@@ -39,13 +39,6 @@
             <a class="sidebar-link" (click)="navigateToProfile()" aria-expanded="false">
               <i class="ti ti-user"></i>
               <span class="hide-menu">Mon Profil</span>
-            </a>
-          </li>
-
-          <li class="sidebar-item">
-            <a class="sidebar-link" href="#" aria-expanded="false">
-              <i class="ti ti-calendar"></i>
-              <span class="hide-menu">Mes Cours</span>
             </a>
           </li>
 
@@ -101,29 +94,29 @@
     <div class="container-fluid">
       <div class="welcome-header">
         <h1>Bienvenue {{currentUser?.username}}</h1>
-        <p>Tableau de bord Enseignant - Gérez vos activités académiques</p>
+        <p>Tableau de bord Rapporteur - Gérez vos rapports de classe</p>
       </div>
 
       <!-- Dashboard Cards -->
       <div class="row">
-        <div class="col-lg-4 col-md-6">
-          <div class="card" (click)="navigateToGradeCorrection()" style="cursor: pointer;">
+        <div class="col-lg-6 col-md-6">
+          <div class="card" (click)="navigateToReportManagement()" style="cursor: pointer;">
             <div class="card-body">
               <div class="row align-items-start">
                 <div class="col-8">
-                  <h5 class="card-title mb-9 fw-semibold">Rectifications</h5>
-                  <h4 class="fw-semibold mb-3">Demandes de rectification</h4>
+                  <h5 class="card-title mb-9 fw-semibold">Rapports</h5>
+                  <h4 class="fw-semibold mb-3">Gestion des rapports</h4>
                   <div class="d-flex align-items-center pb-1">
-                    <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
-                      <i class="ti ti-arrow-down-right text-danger"></i>
+                    <span class="me-2 rounded-circle bg-light-primary round-20 d-flex align-items-center justify-content-center">
+                      <i class="ti ti-arrow-up-right text-primary"></i>
                     </span>
-                    <p class="text-dark me-1 fs-3 mb-0">Gérer les notes</p>
+                    <p class="text-dark me-1 fs-3 mb-0">Créer et gérer</p>
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="d-flex justify-content-end">
-                    <div class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
-                      <i class="ti ti-edit fs-6"></i>
+                    <div class="text-white bg-primary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                      <i class="ti ti-file-text fs-6"></i>
                     </div>
                   </div>
                 </div>
@@ -132,10 +125,10 @@
           </div>
         </div>
 
-        <div class="col-lg-4 col-md-6">
-          <div class="card">
+        <div class="col-lg-6 col-md-6">
+          <div class="card" (click)="navigateToProfile()" style="cursor: pointer;">
             <div class="card-body">
-              <div class="row alig n-items-start">
+              <div class="row align-items-start">
                 <div class="col-8">
                   <h5 class="card-title mb-9 fw-semibold">Profil</h5>
                   <h4 class="fw-semibold mb-3">Mes informations</h4>
@@ -148,34 +141,8 @@
                 </div>
                 <div class="col-4">
                   <div class="d-flex justify-content-end">
-                    <div class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                    <div class="text-white bg-success rounded-circle p-6 d-flex align-items-center justify-content-center">
                       <i class="ti ti-user fs-6"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6">
-          <div class="card">
-            <div class="card-body">
-              <div class="row alig n-items-start">
-                <div class="col-8">
-                  <h5 class="card-title mb-9 fw-semibold">Cours</h5>
-                  <h4 class="fw-semibold mb-3">Mes enseignements</h4>
-                  <div class="d-flex align-items-center pb-1">
-                    <span class="me-2 rounded-circle bg-light-warning round-20 d-flex align-items-center justify-content-center">
-                      <i class="ti ti-arrow-down-right text-warning"></i>
-                    </span>
-                    <p class="text-dark me-1 fs-3 mb-0">Consulter</p>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <div class="d-flex justify-content-end">
-                    <div class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
-                      <i class="ti ti-calendar fs-6"></i>
                     </div>
                   </div>
                 </div>

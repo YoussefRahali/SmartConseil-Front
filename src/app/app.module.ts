@@ -14,6 +14,11 @@ import { RectificationComponent } from './rectification/rectification.component'
 import { DashboardEnseignantComponent } from './dashboard-enseignant/dashboard-enseignant.component';
 import { DashboardChefComponent } from './dashboard-chef/dashboard-chef.component';
 import { AdminSetupComponent } from './admin-setup/admin-setup.component';
+import { GradeCorrectionComponent } from './grade-correction/grade-correction.component';
+import { RectificationManagementComponent } from './rectification-management/rectification-management.component';
+import { ReportManagementComponent } from './report-management/report-management.component';
+import { DashboardRapporteurComponent } from './dashboard-rapporteur/dashboard-rapporteur.component';
+import { TestBackendComponent } from './test-backend/test-backend.component';
 
 // Services and Guards
 import { AuthService } from './services/auth.service';
@@ -31,7 +36,12 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     RectificationComponent,
     DashboardEnseignantComponent,
     DashboardChefComponent,
-    AdminSetupComponent
+    AdminSetupComponent,
+    GradeCorrectionComponent,
+    RectificationManagementComponent,
+    ReportManagementComponent,
+    DashboardRapporteurComponent,
+    TestBackendComponent
   ],
   imports: [
     BrowserModule,

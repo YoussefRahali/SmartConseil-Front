@@ -8,6 +8,11 @@ import { RectificationComponent } from './rectification/rectification.component'
 import { DashboardEnseignantComponent } from './dashboard-enseignant/dashboard-enseignant.component';
 import { DashboardChefComponent } from './dashboard-chef/dashboard-chef.component';
 import { AdminSetupComponent } from './admin-setup/admin-setup.component';
+import { GradeCorrectionComponent } from './grade-correction/grade-correction.component';
+import { RectificationManagementComponent } from './rectification-management/rectification-management.component';
+import { ReportManagementComponent } from './report-management/report-management.component';
+import { DashboardRapporteurComponent } from './dashboard-rapporteur/dashboard-rapporteur.component';
+import { TestBackendComponent } from './test-backend/test-backend.component';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -19,6 +24,7 @@ const routes: Routes = [
   { path: 'motpasseoublie', component: MotpasseComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'admin-setup', component: AdminSetupComponent },
+  { path: 'test-backend', component: TestBackendComponent },
 
   // Protected routes with role-based access
   {
@@ -34,10 +40,34 @@ const routes: Routes = [
     data: { expectedRoles: ['chef departement'] }
   },
   {
+    path: 'dashboard-rapporteur',
+    component: DashboardRapporteurComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRoles: ['rapporteur'] }
+  },
+  {
     path: 'rectification',
     component: RectificationComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: { expectedRoles: ['enseignant'] }
+  },
+  {
+    path: 'grade-correction',
+    component: GradeCorrectionComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRoles: ['enseignant'] }
+  },
+  {
+    path: 'rectification-management',
+    component: RectificationManagementComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRoles: ['chef departement'] }
+  },
+  {
+    path: 'report-management',
+    component: ReportManagementComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRoles: ['rapporteur'] }
   },
 
   // Legacy dashboard route - will redirect based on role
