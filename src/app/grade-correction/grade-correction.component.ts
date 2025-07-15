@@ -41,12 +41,13 @@ export class GradeCorrectionComponent implements OnInit {
 
   // Available options
   options = [
-    'Informatique',
-    'Mathématique',
-    'Telecommunication',
-    'ML',
-    'GC'
-  ];
+  'informatique',
+  'mathématique',
+  'telecommunication',
+  'ml',
+  'gc'
+];
+
 
   constructor(
     private rectificationService: RectificationService,

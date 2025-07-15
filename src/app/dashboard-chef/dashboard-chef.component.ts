@@ -30,12 +30,13 @@ export class DashboardChefComponent implements OnInit {
   ];
 
   secteurs = [
-    'Informatique',
-    'Mathématique',
-    'Telecommunication',
-    'ML',
-    'GC'
-  ];
+  'informatique',
+  'mathématique',
+  'telecommunication',
+  'ml',
+  'gc'
+];
+
 
   constructor(
     private authService: AuthService,
@@ -87,7 +88,7 @@ export class DashboardChefComponent implements OnInit {
       password: '',
       role: '',
       poste: '',
-      Secteur: ''
+      secteur: ''
     };
   }
 
