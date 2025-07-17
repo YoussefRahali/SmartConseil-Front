@@ -24,11 +24,18 @@
 
 .card {
   transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  flex: 1;
 }
 
 .card-header {
@@ -39,6 +46,10 @@
 .card-footer {
   background-color: #f8f9fa;
   border-top: 1px solid #dee2e6;
+  padding: 12px 15px;
+  display: block !important;
+  visibility: visible !important;
+  min-height: 50px;
 }
 
 .btn-group .btn {
@@ -156,13 +167,34 @@ textarea.form-control {
   font-size: 0.75em;
 }
 
-/* Button group spacing */
+/* Button group spacing and visibility */
+.btn-group {
+  display: flex !important;
+  width: 100% !important;
+}
+
+.btn-group .btn {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  flex: 1;
+  min-height: 32px;
+  padding: 6px 8px;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
 .btn-group .btn:not(:last-child) {
   border-right: none;
 }
 
 .btn-group .btn:not(:first-child) {
   border-left: none;
+}
+
+.btn-group .btn i {
+  font-size: 12px;
+  display: inline-block;
 }
 
 /* Modal content spacing */
@@ -176,4 +208,91 @@ textarea.form-control {
   line-height: 1.5;
   max-height: 300px;
   overflow-y: auto;
+}
+
+/* Ensure buttons are always visible */
+.card-footer .btn {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Button hover effects */
+.btn-sm {
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  min-width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Disabled button styling */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Icon spacing in buttons */
+.btn i {
+  margin: 0;
+  line-height: 1;
+}
+
+/* Button text spacing */
+.btn .ms-1 {
+  margin-left: 4px !important;
+}
+
+/* Responsive button text */
+@media (max-width: 768px) {
+  .btn-group .btn {
+    min-width: 40px;
+    padding: 6px 4px;
+  }
+
+  .btn-group .btn span {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .btn-group .btn {
+    min-width: 80px;
+    padding: 6px 12px;
+  }
+}
+
+/* Force button visibility */
+.card-footer .btn-group .btn {
+  background-color: transparent !important;
+  border: 1px solid !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
+/* Ensure proper button states */
+.btn-outline-primary:not(:disabled) {
+  color: #0d6efd !important;
+  border-color: #0d6efd !important;
+}
+
+.btn-outline-secondary:not(:disabled) {
+  color: #6c757d !important;
+  border-color: #6c757d !important;
+}
+
+.btn-outline-success:not(:disabled) {
+  color: #198754 !important;
+  border-color: #198754 !important;
+}
+
+.btn-outline-danger:not(:disabled) {
+  color: #dc3545 !important;
+  border-color: #dc3545 !important;
 }

@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 export interface RapportRequest {
   titre: string;
   contenu: string;
+  option: string;
   classe: string;
   secteur: string;
   anneeAcademique: string;
@@ -15,6 +16,7 @@ export interface RapportRequest {
 export interface RapportUpdate {
   titre: string;
   contenu: string;
+  option: string;
   classe: string;
   secteur: string;
   anneeAcademique: string;
@@ -25,6 +27,7 @@ export interface RapportResponse {
   id: number;
   titre: string;
   contenu: string;
+  option: string;
   classe: string;
   rapporteurUsername: string;
   statut: 'BROUILLON' | 'VALIDE';

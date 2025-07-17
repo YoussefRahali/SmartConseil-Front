@@ -18,6 +18,7 @@ export class ReportManagementComponent implements OnInit {
   formData: RapportRequest = {
     titre: '',
     contenu: '',
+    option: '' ,
     classe: '',
     secteur: '',
     anneeAcademique: '',
@@ -41,6 +42,7 @@ export class ReportManagementComponent implements OnInit {
   editFormData: RapportUpdate = {
     titre: '',
     contenu: '',
+    option: '' ,
     classe: '',
     secteur: '',
     anneeAcademique: '',
@@ -51,13 +53,35 @@ export class ReportManagementComponent implements OnInit {
   currentView: 'all' | 'drafts' | 'validated' = 'all';
 
   // Available options
-  secteurs = [
-    'Informatique',
-    'Mathématique',
-    'Telecommunication',
-    'ML',
-    'GC'
-  ];
+  secteurs = ['Tronc-Commun', 'Informatique', 'Télécommunications'];
+
+  secteurOptionsMap: { [secteur: string]: string[] } = {
+  'Tronc-Commun': ['1A', '2A', '2P', '3A', '3B'],
+  'Informatique': ['Parcours IA', 'Option DS', 'Option ERP-BI', 'Option IFINI', 'Option SAE', 'Option SE', 'Option Twin'],
+  'Télécommunications': ['Option ARCTIC', 'Option IOSYS', 'Option DATA', 'Option GAMIX', 'Option SIM', 'Option SLEAM', 'Option NIDS']
+};
+
+optionClasseMap: { [option: string]: string[] } = {
+  '1A': ['1A'], '2A': ['2A'], '2P': ['2P'], '3A': ['3A'], '3B': ['3B'],
+  'Parcours IA': ['IA1', 'IA2'], // exemple
+  'Option DS': ['DS1', 'DS2'],
+  'Option ERP-BI': ['ERP-BI1'],
+  'Option IFINI': ['IFINI1'],
+  'Option SAE': ['SAE1'],
+  'Option SE': ['SE1', 'SE2'],
+  'Option Twin': ['TWIN1'],
+  'Option ARCTIC': ['ARCTIC1'],
+  'Option IOSYS': ['IOSYS1'],
+  'Option DATA': ['DATA1', 'DATA2'],
+  'Option GAMIX': ['GAMIX1'],
+  'Option SIM': ['SIM1'],
+  'Option SLEAM': ['SLEAM1'],
+  'Option NIDS': ['NIDS1']
+};
+
+options: string[] = [];
+classes: string[] = [];
+
 
   semestres = [
     'Semestre 1',
@@ -146,6 +170,7 @@ export class ReportManagementComponent implements OnInit {
     this.editFormData = {
       titre: report.titre,
       contenu: report.contenu,
+      option: report.option,
       classe: report.classe,
       secteur: report.secteur,
       anneeAcademique: report.anneeAcademique,
@@ -307,6 +332,7 @@ export class ReportManagementComponent implements OnInit {
     this.formData = {
       titre: '',
       contenu: '',
+      option: '' ,
       classe: '',
       secteur: '',
       anneeAcademique: '',
@@ -337,15 +363,31 @@ export class ReportManagementComponent implements OnInit {
     }
   }
 
-  canEdit(report: RapportResponse): boolean {
-    return report.statut === 'BROUILLON';
+  canEdit(report: RapportResponse | null): boolean {
+    return report?.statut === 'BROUILLON';
   }
 
-  canDelete(report: RapportResponse): boolean {
-    return report.statut === 'BROUILLON';
+  canDelete(report: RapportResponse | null): boolean {
+    return report?.statut === 'BROUILLON';
   }
 
-  canValidate(report: RapportResponse): boolean {
-    return report.statut === 'BROUILLON';
+  canValidate(report: RapportResponse | null): boolean {
+    return report?.statut === 'BROUILLON';
   }
+
+
+  onSecteurChange(): void {
+  this.options = this.secteurOptionsMap[this.formData.secteur] || [];
+  this.formData.option = '';
+  this.classes = [];
+  this.formData.classe = '';
+}
+
+onOptionChange(): void {
+  this.classes = this.optionClasseMap[this.formData.option] || [];
+  this.formData.classe = '';
+}
+
+
+
 }
