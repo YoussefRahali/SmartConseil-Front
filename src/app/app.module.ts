@@ -19,6 +19,12 @@ import { RectificationManagementComponent } from './rectification-management/rec
 import { ReportManagementComponent } from './report-management/report-management.component';
 import { DashboardRapporteurComponent } from './dashboard-rapporteur/dashboard-rapporteur.component';
 import { TestBackendComponent } from './test-backend/test-backend.component';
+import { ProfileComponent } from './profile/profile.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { LayoutComponent } from './shared/layout/layout.component';
+import { DataFilterComponent } from './shared/data-filter/data-filter.component';
 
 // Services and Guards
 import { AuthService } from './services/auth.service';
@@ -41,7 +47,13 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     RectificationManagementComponent,
     ReportManagementComponent,
     DashboardRapporteurComponent,
-    TestBackendComponent
+    TestBackendComponent,
+    ProfileComponent,
+    DashboardAdminComponent,
+    NavbarComponent,
+    SidebarComponent,
+    LayoutComponent,
+    DataFilterComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RectificationService, RectificationRequest, RectificationResponse, SmsVerification } from '../rectification/rectification.service';
 import { AuthService } from '../services/auth.service';
+import { FormDataService } from '../services/form-data.service';
 
 @Component({
   selector: 'app-grade-correction',
@@ -39,24 +40,46 @@ export class GradeCorrectionComponent implements OnInit {
   myRequests: RectificationResponse[] = [];
   history: RectificationResponse[] = [];
 
-  // Available options
-  options = [
-  'informatique',
-  'mathématique',
-  'telecommunication',
-  'ml',
-  'gc'
-];
+  // Form dropdown data
+  secteurs: string[] = [];
+  options: string[] = [];
+  classes: string[] = [];
+  justifications: string[] = [];
+
+  // Selected values for cascading dropdowns
+  selectedSecteur: string = '';
+  selectedOption: string = '';
 
 
   constructor(
     private rectificationService: RectificationService,
-    private authService: AuthService
+    private authService: AuthService,
+    private formDataService: FormDataService
   ) {}
 
   ngOnInit(): void {
+    this.initializeFormData();
     this.loadMyRequests();
     this.loadHistory();
+  }
+
+  initializeFormData(): void {
+    this.secteurs = this.formDataService.getSecteurs();
+    this.justifications = this.formDataService.getJustifications();
+  }
+
+  onSecteurChange(): void {
+    this.options = this.formDataService.getOptionsBySecteur(this.selectedSecteur);
+    this.selectedOption = '';
+    this.formData.option = '';
+    this.classes = [];
+    this.formData.classe = '';
+  }
+
+  onOptionChange(): void {
+    this.classes = this.formDataService.getClassesByOption(this.selectedOption);
+    this.formData.option = this.selectedOption;
+    this.formData.classe = '';
   }
 
   loadMyRequests(): void {
@@ -196,6 +219,10 @@ export class GradeCorrectionComponent implements OnInit {
       nouvelleNote: 0,
       justification: ''
     };
+    this.selectedSecteur = '';
+    this.selectedOption = '';
+    this.options = [];
+    this.classes = [];
   }
 
   closeSmsModal(): void {

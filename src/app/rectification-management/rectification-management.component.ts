@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RectificationService, RectificationResponse, StatusUpdate } from '../rectification/rectification.service';
 import { AuthService } from '../services/auth.service';
+import { FilterService, FilterConfig } from '../services/filter.service';
 
 @Component({
   selector: 'app-rectification-management',
@@ -11,22 +12,35 @@ import { AuthService } from '../services/auth.service';
 export class RectificationManagementComponent implements OnInit {
   // Data
   pendingRequests: RectificationResponse[] = [];
+  filteredPendingRequests: RectificationResponse[] = [];
   processedHistory: RectificationResponse[] = [];
-  
+  filteredProcessedHistory: RectificationResponse[] = [];
+
   // State management
   isProcessing = false;
   errorMessage = '';
   successMessage = '';
-  
+
   // Modal state
   showProcessModal = false;
   selectedRequest: RectificationResponse | null = null;
   processAction: 'ACCEPTEE' | 'REFUSEE' = 'ACCEPTEE';
   refusalReason = '';
 
+  // Filter configurations
+  rectificationFilterConfig: FilterConfig = {
+    searchFields: ['etudiantPrenom', 'etudiantNom', 'classe', 'option', 'justification', 'enseignantUsername'],
+    filterFields: [
+      { key: 'status', label: 'Statut', type: 'select' },
+      { key: 'option', label: 'Option', type: 'select' },
+      { key: 'classe', label: 'Classe', type: 'select' }
+    ]
+  };
+
   constructor(
     private rectificationService: RectificationService,
-    private authService: AuthService
+    private authService: AuthService,
+    private filterService: FilterService
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +52,7 @@ export class RectificationManagementComponent implements OnInit {
     this.rectificationService.getPendingRequests().subscribe({
       next: (data) => {
         this.pendingRequests = data.filter(req => req.status === 'EN_ATTENTE');
+        this.filteredPendingRequests = [...this.pendingRequests];
       },
       error: (error) => {
         console.error('Error loading pending requests:', error);
@@ -49,15 +64,34 @@ export class RectificationManagementComponent implements OnInit {
   loadProcessedHistory(): void {
     this.rectificationService.getProcessedHistory().subscribe({
       next: (data) => {
-        this.processedHistory = data.filter(req => 
+        this.processedHistory = data.filter(req =>
           req.status === 'ACCEPTEE' || req.status === 'REFUSEE'
         );
+        this.filteredProcessedHistory = [...this.processedHistory];
       },
       error: (error) => {
         console.error('Error loading processed history:', error);
         this.errorMessage = 'Erreur lors du chargement de l\'historique';
       }
     });
+  }
+
+  onPendingFilterChange(filterData: { searchTerm: string, filters: any }): void {
+    this.filteredPendingRequests = this.filterService.filterData(
+      this.pendingRequests,
+      filterData.searchTerm,
+      filterData.filters,
+      this.rectificationFilterConfig
+    );
+  }
+
+  onHistoryFilterChange(filterData: { searchTerm: string, filters: any }): void {
+    this.filteredProcessedHistory = this.filterService.filterData(
+      this.processedHistory,
+      filterData.searchTerm,
+      filterData.filters,
+      this.rectificationFilterConfig
+    );
   }
 
   openProcessModal(request: RectificationResponse, action: 'ACCEPTEE' | 'REFUSEE'): void {

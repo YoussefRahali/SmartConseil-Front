@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RapportService, RapportRequest, RapportResponse, RapportUpdate } from '../services/rapport.service';
 import { AuthService } from '../services/auth.service';
+import { FormDataService } from '../services/form-data.service';
+import { FilterService, FilterConfig } from '../services/filter.service';
 
 @Component({
   selector: 'app-report-management',
@@ -11,6 +13,7 @@ import { AuthService } from '../services/auth.service';
 export class ReportManagementComponent implements OnInit {
   // Data
   myReports: RapportResponse[] = [];
+  filteredReports: RapportResponse[] = [];
   drafts: RapportResponse[] = [];
   validatedReports: RapportResponse[] = [];
   
@@ -52,35 +55,21 @@ export class ReportManagementComponent implements OnInit {
   // Current view
   currentView: 'all' | 'drafts' | 'validated' = 'all';
 
-  // Available options
-  secteurs = ['Tronc-Commun', 'Informatique', 'Télécommunications'];
+  // Form dropdown data
+  secteurs: string[] = [];
+  options: string[] = [];
+  classes: string[] = [];
 
-  secteurOptionsMap: { [secteur: string]: string[] } = {
-  'Tronc-Commun': ['1A', '2A', '2P', '3A', '3B'],
-  'Informatique': ['Parcours IA', 'Option DS', 'Option ERP-BI', 'Option IFINI', 'Option SAE', 'Option SE', 'Option Twin'],
-  'Télécommunications': ['Option ARCTIC', 'Option IOSYS', 'Option DATA', 'Option GAMIX', 'Option SIM', 'Option SLEAM', 'Option NIDS']
-};
-
-optionClasseMap: { [option: string]: string[] } = {
-  '1A': ['1A'], '2A': ['2A'], '2P': ['2P'], '3A': ['3A'], '3B': ['3B'],
-  'Parcours IA': ['IA1', 'IA2'], // exemple
-  'Option DS': ['DS1', 'DS2'],
-  'Option ERP-BI': ['ERP-BI1'],
-  'Option IFINI': ['IFINI1'],
-  'Option SAE': ['SAE1'],
-  'Option SE': ['SE1', 'SE2'],
-  'Option Twin': ['TWIN1'],
-  'Option ARCTIC': ['ARCTIC1'],
-  'Option IOSYS': ['IOSYS1'],
-  'Option DATA': ['DATA1', 'DATA2'],
-  'Option GAMIX': ['GAMIX1'],
-  'Option SIM': ['SIM1'],
-  'Option SLEAM': ['SLEAM1'],
-  'Option NIDS': ['NIDS1']
-};
-
-options: string[] = [];
-classes: string[] = [];
+  // Filter configuration
+  reportFilterConfig: FilterConfig = {
+    searchFields: ['titre', 'contenu', 'classe', 'secteur', 'option', 'anneeAcademique'],
+    filterFields: [
+      { key: 'statut', label: 'Statut', type: 'select' },
+      { key: 'secteur', label: 'Secteur', type: 'select' },
+      { key: 'semestre', label: 'Semestre', type: 'select' },
+      { key: 'anneeAcademique', label: 'Année Académique', type: 'text' }
+    ]
+  };
 
 
   semestres = [
@@ -90,12 +79,19 @@ classes: string[] = [];
 
   constructor(
     private rapportService: RapportService,
-    private authService: AuthService
+    private authService: AuthService,
+    private formDataService: FormDataService,
+    private filterService: FilterService
   ) {}
 
   ngOnInit(): void {
+    this.initializeFormData();
     this.loadReports();
     this.setCurrentAcademicYear();
+  }
+
+  initializeFormData(): void {
+    this.secteurs = this.formDataService.getSecteurs();
   }
 
   setCurrentAcademicYear(): void {
@@ -114,11 +110,22 @@ classes: string[] = [];
     this.rapportService.getMyReports().subscribe({
       next: (data) => {
         this.myReports = data;
+        this.filteredReports = [...data];
       },
       error: (error) => {
         console.error('Error loading reports:', error);
       }
     });
+  }
+
+  onReportFilterChange(filterData: { searchTerm: string, filters: any }): void {
+    const currentReports = this.getCurrentReports();
+    this.filteredReports = this.filterService.filterData(
+      currentReports,
+      filterData.searchTerm,
+      filterData.filters,
+      this.reportFilterConfig
+    );
   }
 
   loadDrafts(): void {
@@ -377,16 +384,16 @@ classes: string[] = [];
 
 
   onSecteurChange(): void {
-  this.options = this.secteurOptionsMap[this.formData.secteur] || [];
-  this.formData.option = '';
-  this.classes = [];
-  this.formData.classe = '';
-}
+    this.options = this.formDataService.getOptionsBySecteur(this.formData.secteur);
+    this.formData.option = '';
+    this.classes = [];
+    this.formData.classe = '';
+  }
 
-onOptionChange(): void {
-  this.classes = this.optionClasseMap[this.formData.option] || [];
-  this.formData.classe = '';
-}
+  onOptionChange(): void {
+    this.classes = this.formDataService.getClassesByOption(this.formData.option);
+    this.formData.classe = '';
+  }
 
 
 

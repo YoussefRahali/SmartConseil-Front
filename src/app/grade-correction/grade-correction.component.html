@@ -1,7 +1,10 @@
-<div class="container-fluid">
+<app-layout>
   <div class="row">
     <div class="col-12">
-      <h2>Demande de Rectification de Notes</h2>
+      <div class="welcome-header mb-4">
+        <h1><i class="ti ti-edit me-2"></i>Demande de Rectification de Notes</h1>
+        <p>Soumettez vos demandes de rectification de notes avec justification</p>
+      </div>
       
       <!-- Success/Error Messages -->
       <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -49,29 +52,54 @@
             </div>
 
             <div class="row">
-              <div class="col-md-6">
+              <!-- Secteur -->
+              <div class="col-md-4">
                 <div class="mb-3">
-                  <label for="classe" class="form-label">Classe *</label>
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    id="classe" 
-                    [(ngModel)]="formData.classe" 
-                    name="classe" 
+                  <label for="secteur" class="form-label">Secteur *</label>
+                  <select
+                    class="form-select"
+                    id="secteur"
+                    name="secteur"
+                    [(ngModel)]="selectedSecteur"
+                    (change)="onSecteurChange()"
                     required>
+                    <option value="">Sélectionner un secteur</option>
+                    <option *ngFor="let secteur of secteurs" [value]="secteur">{{ secteur }}</option>
+                  </select>
                 </div>
               </div>
-              <div class="col-md-6">
+
+              <!-- Option -->
+              <div class="col-md-4">
                 <div class="mb-3">
                   <label for="option" class="form-label">Option *</label>
-                  <select 
-                    class="form-select" 
-                    id="option" 
-                    [(ngModel)]="formData.option" 
-                    name="option" 
+                  <select
+                    class="form-select"
+                    id="option"
+                    name="option"
+                    [(ngModel)]="selectedOption"
+                    (change)="onOptionChange()"
+                    [disabled]="!selectedSecteur"
                     required>
                     <option value="">Sélectionner une option</option>
                     <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Classe -->
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="classe" class="form-label">Classe *</label>
+                  <select
+                    class="form-select"
+                    id="classe"
+                    name="classe"
+                    [(ngModel)]="formData.classe"
+                    [disabled]="!selectedOption"
+                    required>
+                    <option value="">Sélectionner une classe</option>
+                    <option *ngFor="let classe of classes" [value]="classe">{{ classe }}</option>
                   </select>
                 </div>
               </div>
@@ -112,14 +140,13 @@
 
             <div class="mb-3">
               <label for="justification" class="form-label">Justification *</label>
-              <textarea 
-                class="form-control" 
-                id="justification" 
-                [(ngModel)]="formData.justification" 
-                name="justification" 
-                rows="3" 
-                placeholder="Ex: Erreur de saisie, erreur de calcul, réévaluation suite à réclamation, etc."
-                required></textarea>
+              <select class="form-select" id="justification" name="justification"
+                      [(ngModel)]="formData.justification" required>
+                <option value="">Sélectionner une justification</option>
+                <option *ngFor="let justification of justifications" [value]="justification">
+                  {{ justification }}
+                </option>
+              </select>
             </div>
 
             <button 
@@ -222,7 +249,7 @@
       </div>
     </div>
   </div>
-</div>
+</app-layout>
 
 <!-- SMS Verification Modal 
 <div class="modal" [class.show]="showSmsModal" [style.display]="showSmsModal ? 'block' : 'none'" tabindex="-1">

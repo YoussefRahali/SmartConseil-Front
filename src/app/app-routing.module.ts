@@ -13,6 +13,8 @@ import { RectificationManagementComponent } from './rectification-management/rec
 import { ReportManagementComponent } from './report-management/report-management.component';
 import { DashboardRapporteurComponent } from './dashboard-rapporteur/dashboard-rapporteur.component';
 import { TestBackendComponent } from './test-backend/test-backend.component';
+import { ProfileComponent } from './profile/profile.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -46,6 +48,17 @@ const routes: Routes = [
     data: { expectedRoles: ['rapporteur'] }
   },
   {
+    path: 'dashboard-admin',
+    component: DashboardAdminComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRoles: ['admin'] }
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'rectification',
     component: RectificationComponent,
     canActivate: [AuthGuard, RoleGuard],
@@ -69,12 +82,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { expectedRoles: ['rapporteur'] }
   },
-
-  // Legacy dashboard route - will redirect based on role
   {
-    path: 'dashboard',
-    component: DashboardComponent,
-    canActivate: [AuthGuard]
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRoles: ['rapporteur', 'chef departement', 'enseignant', 'admin'] }
   },
 
   // Default route

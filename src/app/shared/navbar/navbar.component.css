@@ -1,0 +1,120 @@
+/* Enhanced Navbar Styles */
+.app-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 280px; /* Adjust based on sidebar width */
+  z-index: 1030;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(0, 123, 255, 0.08);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  height: 80px;
+}
+
+.navbar {
+  padding: 1rem 2rem;
+  min-height: 80px;
+  background: transparent;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav-icon-hover {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+  color: #495057;
+  font-size: 1.2rem;
+}
+
+.nav-icon-hover:hover {
+  background: linear-gradient(135deg, rgba(0, 123, 255, 0.1) 0%, rgba(0, 123, 255, 0.05) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+  color: #007bff;
+}
+
+.notification {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid white;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
+  min-width: 280px;
+  padding: 1rem 0;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  backdrop-filter: blur(10px);
+  margin-top: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-item {
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin: 0.25rem 1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.dropdown-item:hover {
+  background: linear-gradient(135deg, rgba(0, 123, 255, 0.1) 0%, rgba(0, 123, 255, 0.05) 100%);
+  transform: translateX(5px);
+  color: #007bff;
+}
+
+.dropdown-divider {
+  margin: 0.5rem 0;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 1199.98px) {
+  .app-header {
+    left: 0;
+  }
+}
+
+/* Sidebar collapsed state */
+.sidebar-collapsed .app-header {
+  left: 80px;
+}
+
+@media (max-width: 1199.98px) {
+  .sidebar-collapsed .app-header {
+    left: 0;
+  }
+}
+
+/* Sidebar collapsed state */
+.sidebar-collapsed .app-header {
+  left: 80px;
+}
+
+@media (max-width: 1199.98px) {
+  .sidebar-collapsed .app-header {
+    left: 0;
+  }
+}

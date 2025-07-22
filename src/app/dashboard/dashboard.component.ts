@@ -23,13 +23,15 @@ isModalOpen = false;
     role: '',
 
     poste: '',
-    Secteur: ''
+    Secteur: '',
+    phoneNumber: ''
   };
   roles = [
     'enseignant',
     'president jury',
     'rapporteur',
-    'chef departement'
+    'chef departement',
+    'admin'
   ];
 
   secteurs = [
@@ -136,7 +138,24 @@ isModalOpen = false;
       isValid = false;
     }
 
-    
+    // Phone Number
+    const phonePattern = /^(\+216\s?)?[0-9\s\-]{8,15}$/;
+    if (!this.newUser.phoneNumber || this.newUser.phoneNumber.trim().length === 0) {
+      this.signupErrors.phoneNumber = 'Numéro de téléphone est requis';
+      isValid = false;
+    } else if (!phonePattern.test(this.newUser.phoneNumber)) {
+      this.signupErrors.phoneNumber = 'Format de numéro de téléphone invalide';
+      isValid = false;
+    }
+
+    // Poste
+    if (!this.newUser.poste || this.newUser.poste.trim().length === 0) {
+      this.signupErrors.poste = 'Poste est requis';
+      isValid = false;
+    } else if (this.newUser.poste.length < 2) {
+      this.signupErrors.poste = 'Le poste doit contenir au moins 2 caractères';
+      isValid = false;
+    }
 
     return isValid;
   }

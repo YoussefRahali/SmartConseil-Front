@@ -10,6 +10,9 @@ export interface User {
   email: string;
   role: string;
   token: string;
+  poste?: string;
+  secteur?: string;
+  phoneNumber?: string;
 }
 
 export interface LoginRequest {
@@ -69,18 +72,28 @@ export class AuthService {
   }
 
   logout(): void {
+    console.log('Logout initiated');
+
     // Clear session storage
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('id');
     sessionStorage.removeItem('role');
     sessionStorage.removeItem('email');
-    
+
+    console.log('Session storage cleared');
+
     // Update current user subject
     this.currentUserSubject.next(null);
-    
-    // Redirect to login
-    this.router.navigate(['/utilisateur']);
+
+    console.log('Current user subject updated');
+
+    // Redirect to login with replace to prevent back navigation
+    this.router.navigate(['/utilisateur'], { replaceUrl: true }).then(() => {
+      console.log('Navigation to login completed');
+    }).catch(error => {
+      console.error('Navigation error:', error);
+    });
   }
 
   isAuthenticated(): boolean {
@@ -128,6 +141,8 @@ export class AuthService {
       this.router.navigate(['/dashboard-chef']);
     } else if (role === 'rapporteur') {
       this.router.navigate(['/dashboard-rapporteur']);
+    } else if (role === 'admin') {
+      this.router.navigate(['/dashboard-admin']);
     } else {
       this.router.navigate(['/dashboard']);
     }

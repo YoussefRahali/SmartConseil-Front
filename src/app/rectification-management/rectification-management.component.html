@@ -1,7 +1,10 @@
-<div class="container-fluid">
+<app-layout>
   <div class="row">
     <div class="col-12">
-      <h2>Gestion des Demandes de Rectification</h2>
+      <div class="welcome-header mb-4">
+        <h1><i class="ti ti-clipboard-check me-2"></i>Gestion des Demandes de Rectification</h1>
+        <p>Approuvez ou refusez les demandes de rectification de notes</p>
+      </div>
       
       <!-- Success/Error Messages -->
       <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -21,11 +24,19 @@
           <span class="badge bg-primary">{{ pendingRequests.length }}</span>
         </div>
         <div class="card-body">
+          <!-- Filter Component for Pending Requests -->
+          <app-data-filter
+            *ngIf="pendingRequests.length > 0"
+            [config]="rectificationFilterConfig"
+            [data]="pendingRequests"
+            (filterChange)="onPendingFilterChange($event)">
+          </app-data-filter>
+
           <div *ngIf="pendingRequests.length === 0" class="text-muted text-center py-4">
             <i class="fas fa-inbox fa-3x mb-3"></i>
             <p>Aucune demande en attente de traitement.</p>
           </div>
-          <div *ngIf="pendingRequests.length > 0" class="table-responsive">
+          <div *ngIf="filteredPendingRequests.length > 0" class="table-responsive">
             <table class="table table-hover">
               <thead>
                 <tr>
@@ -41,7 +52,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let request of pendingRequests">
+                <tr *ngFor="let request of filteredPendingRequests">
                   <td>
                     <strong>{{ request.enseignantUsername }}</strong>
                   </td>
@@ -104,11 +115,19 @@
           <span class="badge bg-secondary">{{ processedHistory.length }}</span>
         </div>
         <div class="card-body">
+          <!-- Filter Component for History -->
+          <app-data-filter
+            *ngIf="processedHistory.length > 0"
+            [config]="rectificationFilterConfig"
+            [data]="processedHistory"
+            (filterChange)="onHistoryFilterChange($event)">
+          </app-data-filter>
+
           <div *ngIf="processedHistory.length === 0" class="text-muted text-center py-4">
             <i class="fas fa-history fa-3x mb-3"></i>
             <p>Aucun historique de traitement disponible.</p>
           </div>
-          <div *ngIf="processedHistory.length > 0" class="table-responsive">
+          <div *ngIf="filteredProcessedHistory.length > 0" class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -124,7 +143,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of processedHistory">
+                <tr *ngFor="let item of filteredProcessedHistory">
                   <td>{{ item.enseignantUsername }}</td>
                   <td>{{ item.etudiantPrenom }} {{ item.etudiantNom }}</td>
                   <td>{{ item.classe }}</td>
@@ -157,7 +176,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <!-- Process Request Modal -->
 <div class="modal" [class.show]="showProcessModal" [style.display]="showProcessModal ? 'block' : 'none'" tabindex="-1">
@@ -258,3 +276,5 @@
   </div>
 </div>
 <div *ngIf="showProcessModal" class="modal-backdrop fade show"></div>
+
+</app-layout>

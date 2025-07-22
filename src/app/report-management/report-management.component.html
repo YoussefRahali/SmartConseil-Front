@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<app-layout>
   <div class="row">
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center mb-4">
@@ -50,13 +50,21 @@
       <!-- Reports List -->
       <div class="card">
         <div class="card-body">
+          <!-- Filter Component -->
+          <app-data-filter
+            *ngIf="getCurrentReports().length > 0"
+            [config]="reportFilterConfig"
+            [data]="getCurrentReports()"
+            (filterChange)="onReportFilterChange($event)">
+          </app-data-filter>
+
           <div *ngIf="getCurrentReports().length === 0" class="text-muted text-center py-5">
             <i class="fas fa-file-alt fa-3x mb-3"></i>
             <p>Aucun rapport trouvé.</p>
           </div>
-          
-          <div *ngIf="getCurrentReports().length > 0" class="row">
-            <div class="col-md-6 col-lg-4 mb-4" *ngFor="let report of getCurrentReports()">
+
+          <div *ngIf="filteredReports.length > 0" class="row">
+            <div class="col-md-6 col-lg-4 mb-4" *ngFor="let report of filteredReports">
               <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
                   <span class="badge" [ngClass]="getStatusBadgeClass(report.statut)">
@@ -121,7 +129,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <!-- Create Report Modal -->
 <div class="modal" [class.show]="showCreateModal" [style.display]="showCreateModal ? 'block' : 'none'" tabindex="-1">
@@ -457,3 +464,5 @@
   </div>
 </div>
 <div *ngIf="showDeleteModal" class="modal-backdrop fade show"></div>
+
+</app-layout>
