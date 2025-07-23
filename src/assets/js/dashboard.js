@@ -79,11 +79,17 @@ $(function () {
     },
   };
 
-  var chart_column_basic = new ApexCharts(
-    document.querySelector("#sales-overview"),
-    options_sales_overview
-  );
-  chart_column_basic.render();
+  // Check if the element exists before creating the chart
+  const salesOverviewElement = document.querySelector("#sales-overview");
+  if (salesOverviewElement) {
+    var chart_column_basic = new ApexCharts(
+      salesOverviewElement,
+      options_sales_overview
+    );
+    chart_column_basic.render();
+  } else {
+    console.log('Sales overview chart element not found, skipping chart rendering');
+  }
 
 
 })

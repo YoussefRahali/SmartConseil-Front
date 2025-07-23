@@ -9,6 +9,7 @@ role!:string;
 poste!:string;
 Secteur!:string;
 phoneNumber!:string;
+profilePicture!:string;
 
 
 }

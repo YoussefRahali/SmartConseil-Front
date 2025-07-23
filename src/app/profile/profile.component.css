@@ -213,3 +213,82 @@
 .login-header img {
   filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.1));
 }
+
+/* Profile picture upload styles */
+.profile-picture-upload {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.preview-section {
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #dee2e6;
+}
+
+.preview-section img {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alert-sm {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* Profile picture card styling */
+.card.bg-light {
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card.bg-light .card-body {
+  padding: 1.5rem;
+}
+
+/* File input styling */
+input[type="file"] {
+  border: 2px dashed #dee2e6;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+input[type="file"]:hover {
+  border-color: #007bff;
+  background-color: #e7f3ff;
+}
+
+input[type="file"]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Button styling */
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* Responsive adjustments for profile picture upload */
+@media (max-width: 768px) {
+  .profile-picture-upload {
+    max-width: 100%;
+  }
+
+  .preview-section {
+    padding: 10px;
+  }
+
+  .d-flex.gap-2 {
+    flex-direction: column;
+    gap: 0.5rem !important;
+  }
+
+  .d-flex.gap-2 .btn {
+    width: 100%;
+  }
+}

@@ -25,6 +25,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { LayoutComponent } from './shared/layout/layout.component';
 import { DataFilterComponent } from './shared/data-filter/data-filter.component';
+import { ProfilePictureComponent } from './shared/profile-picture/profile-picture.component';
 
 // Services and Guards
 import { AuthService } from './services/auth.service';
@@ -53,7 +54,8 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     NavbarComponent,
     SidebarComponent,
     LayoutComponent,
-    DataFilterComponent
+    DataFilterComponent,
+    ProfilePictureComponent
   ],
   imports: [
     BrowserModule,

@@ -24,7 +24,8 @@ isModalOpen = false;
 
     poste: '',
     Secteur: '',
-    phoneNumber: ''
+    phoneNumber: '',
+    profilePicture: ''
   };
   roles = [
     'enseignant',

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService, User } from '../services/auth.service';
 import { UtilisateurService } from '../utilisateur/utilisateur.service';
+import { ProfilePictureService } from '../services/profile-picture.service';
 import { Router } from '@angular/router';
 
 export interface ProfileUpdateRequest {
@@ -9,6 +10,7 @@ export interface ProfileUpdateRequest {
   secteur: string;
   email: string;
   phoneNumber: string;
+  profilePicture?: string;
 }
 
 export interface PasswordChangeRequest {
@@ -44,6 +46,12 @@ export class ProfileComponent implements OnInit {
   isLoading = false;
   successMessage = '';
   errorMessage = '';
+
+  // Profile picture related properties
+  selectedFile: File | null = null;
+  profilePicturePreview: string | null = null;
+  isUploadingPicture = false;
+  profilePictureError = '';
   
   // Available options for dropdowns
   secteurs = [
@@ -69,6 +77,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private utilisateurService: UtilisateurService,
+    private profilePictureService: ProfilePictureService,
     private router: Router
   ) {}
 
@@ -364,6 +373,125 @@ export class ProfileComponent implements OnInit {
           }, 5000);
         }
       });
+    }
+  }
+
+  // Profile picture methods
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      this.profilePictureError = '';
+
+      // Validate file
+      if (!file.type.startsWith('image/')) {
+        this.profilePictureError = 'Veuillez sélectionner un fichier image valide.';
+        this.selectedFile = null;
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        this.profilePictureError = 'La taille du fichier ne doit pas dépasser 5MB.';
+        this.selectedFile = null;
+        return;
+      }
+
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.profilePicturePreview = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  uploadProfilePicture(): void {
+    if (!this.selectedFile || !this.currentUser) {
+      console.error('Missing selectedFile or currentUser:', { selectedFile: !!this.selectedFile, currentUser: !!this.currentUser });
+      return;
+    }
+
+    console.log('Starting profile picture upload for user:', this.currentUser.email);
+    console.log('Selected file:', this.selectedFile.name, 'Size:', this.selectedFile.size, 'Type:', this.selectedFile.type);
+
+    this.isUploadingPicture = true;
+    this.profilePictureError = '';
+    this.clearMessages();
+
+    // Resize and convert to base64
+    this.profilePictureService.resizeImage(this.selectedFile, 300, 300, 0.8)
+      .then((resizedBase64) => {
+        console.log('Image resized successfully. Base64 length:', resizedBase64.length);
+        console.log('Base64 preview:', resizedBase64.substring(0, 100) + '...');
+
+        // Upload to server - properly subscribe to the Observable
+        this.profilePictureService.updateProfilePicture(this.currentUser!.email, resizedBase64)
+          .subscribe({
+            next: (response) => {
+              console.log('Profile picture upload successful:', response);
+              this.successMessage = 'Photo de profil mise à jour avec succès!';
+              this.isUploadingPicture = false;
+              this.selectedFile = null;
+              this.profilePicturePreview = null;
+
+              // Reset file input
+              const fileInput = document.getElementById('profilePictureInput') as HTMLInputElement;
+              if (fileInput) {
+                fileInput.value = '';
+              }
+
+              // Refresh the profile picture display
+              this.loadUserProfile();
+
+              setTimeout(() => {
+                this.successMessage = '';
+              }, 5000);
+            },
+            error: (error) => {
+              console.error('Error uploading profile picture:', error);
+              console.error('Error details:', {
+                status: error.status,
+                statusText: error.statusText,
+                message: error.message,
+                error: error.error
+              });
+
+              let errorMessage = 'Erreur lors de la mise à jour de la photo de profil.';
+              if (error.error && error.error.error) {
+                errorMessage = error.error.error;
+              } else if (error.status === 413) {
+                errorMessage = 'Image trop volumineuse. Veuillez choisir une image plus petite.';
+              } else if (error.status === 400) {
+                errorMessage = 'Format d\'image invalide ou données corrompues.';
+              } else if (error.status === 401) {
+                errorMessage = 'Session expirée. Veuillez vous reconnecter.';
+              }
+
+              this.profilePictureError = errorMessage;
+              this.isUploadingPicture = false;
+
+              setTimeout(() => {
+                this.profilePictureError = '';
+              }, 5000);
+            }
+          });
+      })
+      .catch((error) => {
+        console.error('Error resizing image:', error);
+        this.profilePictureError = 'Erreur lors du traitement de l\'image.';
+        this.isUploadingPicture = false;
+      });
+  }
+
+  cancelProfilePictureUpload(): void {
+    this.selectedFile = null;
+    this.profilePicturePreview = null;
+    this.profilePictureError = '';
+
+    // Reset file input
+    const fileInput = document.getElementById('profilePictureInput') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
     }
   }
 

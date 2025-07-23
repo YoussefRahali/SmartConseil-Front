@@ -13,6 +13,7 @@ export interface User {
   poste?: string;
   secteur?: string;
   phoneNumber?: string;
+  profilePicture?: string;
 }
 
 export interface LoginRequest {
@@ -74,26 +75,33 @@ export class AuthService {
   logout(): void {
     console.log('Logout initiated');
 
-    // Clear session storage
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('username');
-    sessionStorage.removeItem('id');
-    sessionStorage.removeItem('role');
-    sessionStorage.removeItem('email');
+    try {
+      // Clear session storage
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('username');
+      sessionStorage.removeItem('id');
+      sessionStorage.removeItem('role');
+      sessionStorage.removeItem('email');
 
-    console.log('Session storage cleared');
+      console.log('Session storage cleared');
 
-    // Update current user subject
-    this.currentUserSubject.next(null);
+      // Update current user subject
+      this.currentUserSubject.next(null);
 
-    console.log('Current user subject updated');
+      console.log('Current user subject updated');
 
-    // Redirect to login with replace to prevent back navigation
-    this.router.navigate(['/utilisateur'], { replaceUrl: true }).then(() => {
-      console.log('Navigation to login completed');
-    }).catch(error => {
-      console.error('Navigation error:', error);
-    });
+      // Use setTimeout to break potential circular calls
+      setTimeout(() => {
+        // Redirect to login with replace to prevent back navigation
+        this.router.navigate(['/utilisateur'], { replaceUrl: true }).then(() => {
+          console.log('Navigation to login completed');
+        }).catch(error => {
+          console.error('Navigation error:', error);
+        });
+      }, 0);
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   }
 
   isAuthenticated(): boolean {

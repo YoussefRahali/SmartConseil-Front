@@ -52,3 +52,10 @@ img {
   height: auto;
   display: block;
 }
+
+/* Override for profile pictures */
+.profile-picture-img {
+  max-width: none !important;
+  height: auto !important;
+  display: block !important;
+}

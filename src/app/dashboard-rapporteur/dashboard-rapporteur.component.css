@@ -1,7 +1,10 @@
 .welcome-header {
+  background: linear-gradient(180deg, #c51126 0%, #d6555c 50%, #992020 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 10px;
   margin-bottom: 2rem;
-  padding: 1.5rem 0;
-  border-bottom: 1px solid #e9ecef;
+  text-align: center;
 }
 
 .welcome-header h1 {

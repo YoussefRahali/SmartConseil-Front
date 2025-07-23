@@ -17,7 +17,8 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.checkBackendServices();
+    // Temporarily disable health checks to avoid console errors
+    // this.checkBackendServices();
   }
 
   checkBackendServices(): void {

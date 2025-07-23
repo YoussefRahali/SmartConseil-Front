@@ -63,4 +63,11 @@ export class UtilisateurService {
     return this.httpClient.get<any>(`http://localhost:8088/api/users/test`);
   }
 
+  // Profile picture methods
+  updateProfilePicture(email: string, profilePicture: string): Observable<any> {
+    const headers = this.authService.getAuthHeaders();
+    const payload = { email, profilePicture };
+    return this.httpClient.put<any>(`http://localhost:8088/api/users/profile-picture`, payload, { headers });
+  }
+
 }
