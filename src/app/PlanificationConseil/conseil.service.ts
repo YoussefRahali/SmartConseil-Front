@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConseilDTO } from './conseil/ConseilDTO';
 import { Cons, Observable } from 'rxjs';
-import { Utilisateur } from '../utilisateur/utilisateur';
+import { Utilisateur } from '../utilisateur/Utilisateur';
 import { Salle } from './salle/Salle';
 import { Conseil } from './conseil/Conseil';
 import { ConseilUtilisateur } from './conseil/ConseilUtilisateur';
@@ -11,8 +11,8 @@ import { ConseilUtilisateur } from './conseil/ConseilUtilisateur';
   providedIn: 'root'
 })
 export class ConseilService {
-private baseURL="http://192.168.1.13:8090/conseils";
-private baseURL1="http://192.168.1.13:8088/auth";
+private baseURL="http://localhost:8090/conseils";
+private baseURL1="http://localhost:8088/auth";
   constructor(private http:HttpClient) { }
 
   addConseil(conseil: ConseilDTO): Observable<ConseilDTO> {

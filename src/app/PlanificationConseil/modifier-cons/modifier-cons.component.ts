@@ -1,17 +1,20 @@
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { ConseilService } from '../conseil.service';
-import { Utilisateur } from 'src/app/utilisateur/utilisateur';
+import { Utilisateur } from 'src/app/utilisateur/Utilisateur';
 import { Conseil } from '../conseil/Conseil';
 import { ConseilDTO } from '../conseil/ConseilDTO';
 import { Salle } from '../salle/Salle';
-import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-modifier-cons',
   templateUrl: './modifier-cons.component.html',
-  styleUrls: ['./modifier-cons.component.css']
+  styleUrls: ['./modifier-cons.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule]
 })
 export class ModifierConsComponent implements OnInit {
 

@@ -116,7 +116,7 @@ const routes: Routes = [
 { path: 'reset-password', component:ResetPasswordComponent },
 { path: 'president', component:PresidentCoseilComponent },
 {path:'enseignant-conseil',component:EnseignantConseilComponent},
-{path:'session-conseil/:id',component:SessionConseilComponent}
+{path:'session-conseil/:id',component:SessionConseilComponent},
 
   // Wildcard route - redirect to login
   { path: '**', redirectTo: 'utilisateur' }

@@ -113,6 +113,8 @@ export class NavigationService {
         return '/dashboard-rapporteur';
       case 'admin':
         return '/dashboard-admin';
+      case 'president':
+        return '/president';
       default:
         return '/dashboard';
     }
