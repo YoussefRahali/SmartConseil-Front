@@ -6,7 +6,7 @@ import { Utilisateur } from './utilisateur';
   providedIn: 'root'
 })
 export class UtilisateurService {
-   private baseURL="http://localhost:8088/auth";
+   private baseURL="http://192.168.1.13:8088/auth";
 
   constructor(private httpClient:HttpClient) { }
   login(user: { email: string; password: string }): Observable<any> {
