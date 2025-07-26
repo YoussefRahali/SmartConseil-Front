@@ -1,11 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { Conseil } from '../conseil/Conseil';
 import { ConseilService } from '../conseil.service';
-import { Utilisateur } from '../../utilisateur/utilisateur';
+import { Utilisateur } from '../../utilisateur/Utilisateur';
+
 @Component({
   selector: 'app-president-coseil',
   templateUrl: './president-coseil.component.html',
-  styleUrls: ['./president-coseil.component.css']
+  styleUrls: ['./president-coseil.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule]
 })
 
 export class PresidentCoseilComponent implements OnInit {

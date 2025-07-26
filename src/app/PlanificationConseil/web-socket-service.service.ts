@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import * as SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client';
 import { Client, Message } from '@stomp/stompjs';
 
 @Injectable({ providedIn: 'root' })
@@ -32,7 +32,7 @@ export class WebSocketService implements OnDestroy {
 
     try {
       this.client = new Client({
-        webSocketFactory: () => new SockJS('http://192.168.1.13:8090/ws'),
+        webSocketFactory: () => new SockJS('http://localhost:8090/ws'),
         reconnectDelay: 5000,
         debug: (str: any) => console.log('[WebSocket] ' + str),
 

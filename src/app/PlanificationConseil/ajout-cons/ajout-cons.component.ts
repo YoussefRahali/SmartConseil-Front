@@ -1,16 +1,20 @@
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder,Validators,FormGroup, FormControl } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormBuilder,Validators,FormGroup, FormControl } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
 import { ConseilService } from '../conseil.service';
-import { Utilisateur } from 'src/app/utilisateur/utilisateur';
+import { Utilisateur } from 'src/app/utilisateur/Utilisateur';
 import { Conseil } from '../conseil/Conseil';
 import { ConseilDTO } from '../conseil/ConseilDTO';
 import { Salle } from '../salle/Salle';
-import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-ajout-cons',
   templateUrl: './ajout-cons.component.html',
-  styleUrls: ['./ajout-cons.component.css']
+  styleUrls: ['./ajout-cons.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule]
 })
 export class AjoutConsComponent implements OnInit {
 
@@ -50,11 +54,11 @@ this.ConseilForm = new FormGroup({
 
 
   getPresidents(): Utilisateur[] {
-  return this.Users.filter(user => user.role === 'PRESIDENT');
+  return this.Users.filter(user => user.role === 'president');
 }
 
 getRapporteurs(): Utilisateur[] {
-  return this.Users.filter(user => user.role === 'RAPPORTEUR');
+  return this.Users.filter(user => user.role === 'rapporteur');
 }
 
 

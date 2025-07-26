@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { UtilisateurService } from '../utilisateur/utilisateur.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { Utilisateur } from '../utilisateur/utilisateur';
+import { Utilisateur } from '../utilisateur/Utilisateur';
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',

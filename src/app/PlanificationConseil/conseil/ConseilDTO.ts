@@ -1,4 +1,4 @@
-import { Utilisateur } from "src/app/utilisateur/utilisateur";
+import { Utilisateur } from "src/app/utilisateur/Utilisateur";
 
 export class ConseilDTO {
 

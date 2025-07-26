@@ -1,15 +1,18 @@
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
 import { ConseilService } from '../conseil.service';
 import { Salle } from './Salle';
-import { Router } from '@angular/router';
 import { elementAt } from 'rxjs';
 
 @Component({
   selector: 'app-salle',
   templateUrl: './salle.component.html',
-  styleUrls: ['./salle.component.css']
+  styleUrls: ['./salle.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule]
 })
 export class SalleComponent implements OnInit {
 constructor(private formBuilder: FormBuilder,HttpClient:HttpClientModule,private conseilService:ConseilService,private router: Router ) { }

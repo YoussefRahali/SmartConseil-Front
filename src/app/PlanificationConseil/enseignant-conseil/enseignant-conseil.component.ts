@@ -1,14 +1,19 @@
 import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { Conseil } from '../conseil/Conseil';
 import { ConseilService } from '../conseil.service';
-import { Utilisateur } from '../../utilisateur/utilisateur';
+import { Utilisateur } from '../../utilisateur/Utilisateur';
 import { WebSocketService } from '../web-socket-service.service';
 
 @Component({
   selector: 'app-enseignant-conseil',
   templateUrl: './enseignant-conseil.component.html',
-  styleUrls: ['./enseignant-conseil.component.css']
+  styleUrls: ['./enseignant-conseil.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule]
 })
 export class EnseignantConseilComponent implements OnInit, OnDestroy {
 
