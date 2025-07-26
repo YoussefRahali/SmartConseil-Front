@@ -18,7 +18,8 @@
             },
             "index": "src/index.html",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -30,6 +31,10 @@
             ],
             "scripts": [],
             "browser": "src/main.ts"
+            "allowedCommonJsDependencies": [
+      "sockjs-client"
+    ],
+            
           },
           "configurations": {
             "production": {
@@ -95,6 +100,7 @@
       }
     }
   },
+  
   "cli": {
     "analytics": "7d75e341-9e08-45e5-b2cb-eee803e2aeec"
   }

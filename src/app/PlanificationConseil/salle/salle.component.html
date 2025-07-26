@@ -1,0 +1,212 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flexy Free Bootstrap Admin Template by WrapPixel</title>
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+
+    <!-- Sidebar Start -->
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div>
+        <div>
+          <a href="./index.html">
+            <img src="assets/images/logos/esprit.png" alt=""
+              style="width: 180px; height: auto; display: block; margin-left: 40px;" />
+          </a>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+            <i class="ti ti-x fs-6"></i>
+          </div>
+        </div>
+
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+          <ul id="sidebarnav">
+            <li class="nav-small-cap">
+              <span class="hide-menu">Home</span>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                <i class="ti ti-atom"></i>
+                <span class="hide-menu">Dashboard</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                <i class="ti ti-atom"></i>
+                <span class="hide-menu">Rectification des Notes</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                <i class="ti ti-atom"></i>
+                <span class="hide-menu">Planification Conseils</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                <i class="ti ti-atom"></i>
+                <span class="hide-menu">Gestions rapports</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                <i class="ti ti-atom"></i>
+                <span class="hide-menu">Gestion Conseil</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                <i class="ti ti-atom"></i>
+                <span class="hide-menu">Statistique</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!--  Sidebar End -->
+
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <header class="app-header">
+      </header>
+      <!--  Header End -->
+
+      <div class="body-wrapper-inner">
+        <div class="container-fluid">
+
+          <div class="welcome-header">
+            <h1>Bienvenue dans votre espace</h1>
+            <p>Gérez efficacement vos activités académiques depuis ce tableau de bord</p>
+          </div>
+
+          <!-- Bouton pour ouvrir la modale -->
+          <div class="header-container">
+            <div class="header-text">
+              <h2>Gestion des Salles</h2>
+              <p>Module 3 - Gestion des Disponibilite de Salles</p>
+            </div>
+           
+          </div>
+
+         <div class="row">
+  <div class="form-container">
+    <form [formGroup]="SalleForm" (ngSubmit)="onSubmit()">
+      <h2>Informations du Salle</h2>
+      <p class="subtitle">Remplissez les détails du nouveau Salle de classe</p>
+
+      <div class="row">
+        <!-- Nom Salle -->
+        <div class="field">
+          <label>Nom Salle</label>
+          <input type="text" placeholder="ajouter le nom de la salle" formControlName="nomSalle">
+          <div class="error" *ngIf="SalleForm.get('nomSalle')?.touched && SalleForm.get('nomSalle')?.invalid">
+            Le nom de la salle est requis.
+          </div>
+        </div>
+
+        <!-- Étage -->
+        <div class="field">
+          <label>Étage</label>
+          <select formControlName="etage">
+            <option value="">-- Sélectionner un étage --</option>
+            <option value="Rez-de-chaussée">Rez-de-chaussée</option>
+            <option value="1er étage">1er étage</option>
+            <option value="2ème étage">2ème étage</option>
+            <option value="4ème étage">4ème étage</option>
+          </select>
+          <div class="error" *ngIf="SalleForm.get('etage')?.touched && SalleForm.get('etage')?.invalid">
+            L'étage est requis.
+          </div>
+        </div>
+      </div> <!-- fin .row -->
+
+      <div class="row">
+        <!-- Capacité -->
+        <div class="field">
+          <label>Capacité</label>
+          <select formControlName="capacite">
+            <option value="">-- Sélectionner la capacité --</option>
+            <option *ngFor="let cap of capacites" [value]="cap">{{ cap }}</option>
+          </select>
+          <div class="error" *ngIf="SalleForm.get('capacite')?.touched && SalleForm.get('capacite')?.invalid">
+            La capacité est requise.
+          </div>
+        </div>
+
+        <!-- Équipement -->
+        <div class="field">
+          <label>Équipement</label>
+          <input type="text" placeholder="Sélectionner les équipements" formControlName="equipement">
+          <div class="error" *ngIf="SalleForm.get('equipement')?.touched && SalleForm.get('equipement')?.invalid">
+            L'équipement est requis.
+          </div>
+        </div>
+      </div> <!-- fin .row -->
+
+      <!-- Description -->
+      <div class="field">
+        <label>Description</label>
+        <input type="text" placeholder="Donner une description" formControlName="description">
+        <div class="error" *ngIf="SalleForm.get('description')?.touched && SalleForm.get('description')?.errors">
+          <span *ngIf="SalleForm.get('description')?.errors?.['required']">
+            La description est requise.
+          </span>
+          <span *ngIf="SalleForm.get('description')?.errors?.['minlength']">
+            Minimum 10 caractères requis.
+          </span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="primary"><span>📅</span> Créer La Salle</button>
+        <button type="button" class="secondary">Annuler</button>
+      </div>
+    </form>
+
+    <!-- Footer proprement placé -->
+    <div class="py-6 px-6 text-center">
+      <p class="mb-0 fs-4">
+        Design and Developed by <a href="#" class="pe-1 text-primary text-decoration-underline">Wrappixel.com</a>
+        Distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+      </p>
+    </div>
+  </div> <!-- fin .form-container -->
+</div> <!-- fin .row -->
+
+
+        </div> <!-- end container-fluid -->
+      </div> <!-- end body-wrapper-inner -->
+    </div> <!-- end body-wrapper -->
+  </div> <!-- end page-wrapper -->
+
+  <!-- JS includes -->
+  <script src="./assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="./assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./assets/js/sidebarmenu.js"></script>
+  <script src="./assets/js/app.min.js"></script>
+  <script src="./assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+  <script src="./assets/libs/simplebar/dist/simplebar.js"></script>
+  <script src="./assets/js/dashboard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>

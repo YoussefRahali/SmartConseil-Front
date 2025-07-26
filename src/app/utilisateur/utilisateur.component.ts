@@ -23,6 +23,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UtilisateurComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('video') videoElementRef!: ElementRef<HTMLVideoElement>;
+emailPasswordVerified: boolean = false;
+faceVerified: boolean = false;
 
   methode: 'password' | 'face' = 'password';
   email: string = '';
@@ -77,11 +79,12 @@ export class UtilisateurComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  onLogin(): void {
-    if (!this.email || !this.password) {
-      this.errorMessage = 'Veuillez remplir tous les champs';
-      return;
-    }
+onLogin(): void {
+  // Cas où l'identifiant est déjà validé, mais pas le face ID
+  if (this.emailPasswordVerified && !this.faceVerified) {
+    this.errorMessage = '✅ Identifiants valides. Veuillez valider votre Face ID.';
+    return;
+  }
 
     const loginRequest = { email: this.email, password: this.password };
 
@@ -96,6 +99,7 @@ export class UtilisateurComponent implements OnInit, AfterViewInit, OnChanges {
       }
     );
   }
+
 
   startCamera(): void {
     if (this.cameraStarted || !this.videoElementRef) return;
@@ -130,27 +134,35 @@ triggerSnapshot(): void {
   this.trigger.next();
 }
 
-  handleImage(webcamImage: WebcamImage): void {
-    this.webcamImage = webcamImage;
+handleImage(webcamImage: WebcamImage): void {
+  this.webcamImage = webcamImage;
   console.log("Image captured:", webcamImage);
-    const headers = {
-      'Content-Type': 'application/json'
-    };
-  
-    this.http.post('http://127.0.0.1:5000/verify-face', {
-      image: webcamImage.imageAsDataUrl
-    }, {
-      headers: headers,
-      withCredentials: true // Important for handling credentials
-    }).subscribe((res: any) => {
-      this.resultMessage = res.verified ? "✅ Face Verified!" : "❌ Verification Failed";
-  
-      if (res.verified) {
-        this.router.navigate(['/dashboard']); // Adjust route as needed
+  const headers = {
+    'Content-Type': 'application/json'
+  };
+
+  this.http.post('http://127.0.0.1:5000/verify-face', {
+    image: webcamImage.imageAsDataUrl
+  }, {
+    headers: headers,
+    withCredentials: true
+  }).subscribe((res: any) => {
+    this.resultMessage = res.verified ? "✅ Face Verified!" : "❌ Verification Failed";
+
+    if (res.verified) {
+      this.faceVerified = true;
+
+      // Naviguer uniquement si email+password validés aussi
+      if (this.emailPasswordVerified && this.faceVerified) {
+        this.router.navigate(['/conseil']);
       }
-    }, error => {
-      console.error("Verification error:", error);
-      this.resultMessage = "❌ Error during verification.";
-    });
-  }
+    } else {
+      this.faceVerified = false;
+    }
+  }, error => {
+    console.error("Verification error:", error);
+    this.resultMessage = "❌ Error during verification.";
+  });
+}
+
 }

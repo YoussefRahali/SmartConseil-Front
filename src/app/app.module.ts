@@ -32,6 +32,22 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+=======
+import { HttpClientModule } from '@angular/common/http';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MotpasseComponent } from './motpasse/motpasse.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { WebcamModule } from 'ngx-webcam';
+import { ConseilComponent } from './PlanificationConseil/conseil/conseil.component';
+import { SalleComponent } from './PlanificationConseil/salle/salle.component';
+import { AjoutConsComponent } from './PlanificationConseil/ajout-cons/ajout-cons.component';
+import { ModifierConsComponent } from './PlanificationConseil/modifier-cons/modifier-cons.component';
+import { ListSalleComponent } from './PlanificationConseil/list-salle/list-salle.component';
+import { CouncilManagementComponent } from './CouncilManagement/council-management.component';
+import { EnseignantConseilComponent } from './PlanificationConseil/enseignant-conseil/enseignant-conseil.component';
+import { PresidentCoseilComponent } from './PlanificationConseil/president-coseil/president-coseil.component';
+import { SessionConseilComponent } from './PlanificationConseil/session-conseil/session-conseil.component';
+import { ConseilEnCoursComponent } from './PlanificationConseil/conseil-en-cours/conseil-en-cours.component';
 
 @NgModule({
   declarations: [
@@ -56,13 +72,27 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     LayoutComponent,
     DataFilterComponent,
     ProfilePictureComponent
+
+    ConseilComponent,
+    SalleComponent,
+AjoutConsComponent,
+ModifierConsComponent,
+ListSalleComponent,
+CouncilManagementComponent,
+EnseignantConseilComponent,
+PresidentCoseilComponent,
+ConseilEnCoursComponent,
+SessionConseilComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    WebcamModule
+    WebcamModule,
+    FormsModule,
+    ReactiveFormsModule,
+  
   ],
   providers: [
     AuthService,
