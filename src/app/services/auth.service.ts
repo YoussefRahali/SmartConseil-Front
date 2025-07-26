@@ -28,6 +28,8 @@ export class AuthService {
   private baseURL = "http://localhost:8088/auth";
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  private isLoggingOut = false;
+
 
   constructor(private http: HttpClient, private router: Router) {
     // Check if user is already logged in on service initialization
@@ -72,37 +74,27 @@ export class AuthService {
       );
   }
 
-  logout(): void {
-    console.log('Logout initiated');
 
-    try {
-      // Clear session storage
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('username');
-      sessionStorage.removeItem('id');
-      sessionStorage.removeItem('role');
-      sessionStorage.removeItem('email');
+logout(): void {
+  if (this.isLoggingOut) return; // ← 🔁 évite double appel
+  this.isLoggingOut = true;
 
-      console.log('Session storage cleared');
+  try {
+    // Clear session storage
+    sessionStorage.clear();
+    this.currentUserSubject.next(null);
 
-      // Update current user subject
-      this.currentUserSubject.next(null);
+    // Naviguer vers login
+    this.router.navigate(['/utilisateur'], { replaceUrl: true }).finally(() => {
+      this.isLoggingOut = false;
+    });
 
-      console.log('Current user subject updated');
-
-      // Use setTimeout to break potential circular calls
-      setTimeout(() => {
-        // Redirect to login with replace to prevent back navigation
-        this.router.navigate(['/utilisateur'], { replaceUrl: true }).then(() => {
-          console.log('Navigation to login completed');
-        }).catch(error => {
-          console.error('Navigation error:', error);
-        });
-      }, 0);
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
+  } catch (error) {
+    console.error('Logout error:', error);
+    this.isLoggingOut = false;
   }
+}
+
 
   isAuthenticated(): boolean {
     const token = sessionStorage.getItem('token');

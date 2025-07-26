@@ -15,21 +15,6 @@
     </div>
   </div>
 
-  <!-- User Info Section -->
-  <div class="user-info-section" *ngIf="currentUser">
-    <div class="user-avatar">
-      <app-profile-picture
-        [email]="currentUser?.email || ''"
-        size="large"
-        [showBorder]="true"
-        [alt]="currentUser?.username || 'Profile'">
-      </app-profile-picture>
-    </div>
-    <div class="user-details">
-      <h6 class="user-name">{{ currentUser.username }}</h6>
-      <p class="user-role">{{ getRoleDisplayName(currentUser.role) }}</p>
-    </div>
-  </div>
 
   <!-- Sidebar navigation-->
   <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
@@ -47,23 +32,6 @@
              aria-expanded="false">
             <i [class]="item.icon"></i>
             <span class="hide-menu">{{ item.title }}</span>
-          </a>
-        </li>
-
-        <!-- Separator -->
-        <li class="nav-small-cap">
-          <span class="hide-menu">Compte</span>
-        </li>
-
-        <!-- Profile Link -->
-        <li class="sidebar-item">
-          <a class="sidebar-link" 
-             [class.active]="isActiveRoute('/profile')"
-             (click)="navigateToProfile()" 
-             href="javascript:void(0)" 
-             aria-expanded="false">
-            <i class="ti ti-user"></i>
-            <span class="hide-menu">Mon Profil</span>
           </a>
         </li>
 

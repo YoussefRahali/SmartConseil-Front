@@ -45,20 +45,6 @@ export class NavigationService {
       roles: ['admin']
     },
     {
-      id: 'reports',
-      title: 'Gestion des Rapports',
-      icon: 'ti ti-file-text',
-      route: '/report-management',
-      roles: ['enseignant', 'chef departement', 'admin']
-    },
-    {
-      id: 'rectifications',
-      title: 'Rectifications',
-      icon: 'ti ti-edit',
-      route: '/rectification',
-      roles: ['enseignant', 'admin']
-    },
-    {
       id: 'grade-correction',
       title: 'Correction de Notes',
       icon: 'ti ti-edit-circle',
@@ -72,27 +58,7 @@ export class NavigationService {
       route: '/rectification-management',
       roles: ['chef departement']
     },
-    {
-      id: 'users-chef',
-      title: 'Gestion Utilisateurs',
-      icon: 'ti ti-users',
-      route: '/dashboard-chef',
-      roles: ['chef departement']
-    },
-    {
-      id: 'users-admin',
-      title: 'Gestion Utilisateurs',
-      icon: 'ti ti-users',
-      route: '/dashboard-admin',
-      roles: ['admin']
-    },
-    {
-      id: 'statistics',
-      title: 'Statistiques',
-      icon: 'ti ti-chart-bar',
-      route: '/dashboard-admin',
-      roles: ['admin']
-    },
+    
     {
       id: 'profile',
       title: 'Mon Profil',
@@ -160,28 +126,6 @@ export class NavigationService {
     
     // Add role-specific customizations
     switch (userRole) {
-      case 'admin':
-        return [
-          ...baseItems,
-          {
-            id: 'system-health',
-            title: 'État du Système',
-            icon: 'ti ti-heart',
-            route: '/dashboard-admin',
-            roles: ['admin']
-          }
-        ];
-      
-      case 'chef departement':
-        return baseItems.map(item => {
-          if (item.id === 'users-chef') {
-            return {
-              ...item,
-              title: 'Gestion Équipe'
-            };
-          }
-          return item;
-        });
       
       default:
         return baseItems;

@@ -20,12 +20,11 @@
 }
 
 .body-wrapper {
-  margin-left: 280px;
-  min-height: 100vh;
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 1;
+  margin-left: 280px; /* pushes content to the right */
+  padding-top: 80px;  /* leaves space for fixed navbar */
+  flex-grow: 1;
 }
+
 
 .main-content {
   padding-top: 100px; /* Account for fixed navbar height */
