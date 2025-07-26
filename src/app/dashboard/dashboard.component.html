@@ -44,11 +44,12 @@
         </li>
 
         <li class="sidebar-item">
-          <a class="sidebar-link" href="./index.html" aria-expanded="false">
+          <a class="sidebar-link" [routerLink]="['/rectification']" routerLinkActive="active" aria-expanded="false">
             <i class="ti ti-atom"></i>
             <span class="hide-menu">Rectification des Notes</span>
           </a>
         </li>
+
 
         <li class="sidebar-item">
           <a class="sidebar-link" href="./index.html" aria-expanded="false">
@@ -101,7 +102,7 @@
 
 </div>
 <!-- Bouton pour ouvrir la modale -->
-<
+
 <div class="header-container">
   <div class="header-text">
     <h2>Gestion des Utilisateurs</h2>
@@ -132,7 +133,11 @@
   <input type="password" name="password" [(ngModel)]="newUser.password" placeholder="Mot de passe" required>
   <div *ngIf="signupErrors.password" style="color:red">{{ signupErrors.password }}</div>
 
-  
+  <input type="tel" name="phoneNumber" [(ngModel)]="newUser.phoneNumber" placeholder="Numéro de téléphone" required>
+  <div *ngIf="signupErrors.phoneNumber" style="color:red">{{ signupErrors.phoneNumber }}</div>
+
+  <input type="text" name="poste" [(ngModel)]="newUser.poste" placeholder="Poste" required>
+  <div *ngIf="signupErrors.poste" style="color:red">{{ signupErrors.poste }}</div>
 
   <select name="Secteur" [(ngModel)]="newUser.Secteur" required>
     <option value="" disabled selected>Choisir un secteur</option>

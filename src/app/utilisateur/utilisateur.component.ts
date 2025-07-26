@@ -8,16 +8,18 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { UtilisateurService } from './utilisateur.service';
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { Utilisateur } from './utilisateur';
+import { Utilisateur } from './Utilisateur';
 import { Subject } from 'rxjs';
 import { WebcamImage } from 'ngx-webcam';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-utilisateur',
-  templateUrl: './utilisateur.component.html',
-  styleUrls: ['./utilisateur.component.css']
+    selector: 'app-utilisateur',
+    templateUrl: './utilisateur.component.html',
+    styleUrls: ['./utilisateur.component.css'],
+    standalone: false
 })
 export class UtilisateurComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('video') videoElementRef!: ElementRef<HTMLVideoElement>;
@@ -38,7 +40,12 @@ faceVerified: boolean = false;
  webcamImage: WebcamImage | null = null;
   user: Utilisateur = new Utilisateur();
 
-  constructor(private userService: UtilisateurService, private router: Router,private http: HttpClient) {}
+  constructor(
+    private userService: UtilisateurService,
+    private authService: AuthService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     localStorage.clear();
@@ -79,39 +86,19 @@ onLogin(): void {
     return;
   }
 
-  // Cas normal (première tentative de connexion)
-  if (!this.email || !this.password) {
-    this.errorMessage = 'Veuillez remplir tous les champs';
-    return;
+    const loginRequest = { email: this.email, password: this.password };
+
+    this.userService.login(loginRequest).subscribe(
+      (response) => {
+        // The AuthService will handle storing the user data and redirecting
+        this.authService.redirectToDashboard();
+      },
+      (error) => {
+        console.error('Erreur de connexion :', error);
+        this.errorMessage = 'Nom d’utilisateur ou mot de passe incorrect';
+      }
+    );
   }
-
-  const user = { email: this.email, password: this.password };
-
-  this.userService.login(user).subscribe(
-    (response) => {
-      sessionStorage.setItem('token', response.token);
-      sessionStorage.setItem('username', response.username);
-      sessionStorage.setItem('id', response.id);
-      sessionStorage.setItem('role', response.role);
-
-      this.emailPasswordVerified = true;
-      this.errorMessage = '✅ Identifiants valides. Veuillez valider votre Face ID.';
-
-    if(response.role=='enseignant'){
-      this.router.navigate(['/enseignant-conseil']);
-    }else if(response.role=='RAPPORTEUR'){
-      this.router.navigate(['/conseil']);
-    }
-    else if(response.role=='PRESIDENT'){
-      this.router.navigate(['/president']);
-    }
-    },
-    (error) => {
-      console.error('Erreur de connexion :', error);
-      this.errorMessage = '❌ Nom d’utilisateur ou mot de passe incorrect';
-    }
-  );
-}
 
 
   startCamera(): void {

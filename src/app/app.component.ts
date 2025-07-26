@@ -1,16 +1,22 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
 import { WebSocketService } from './PlanificationConseil/web-socket-service.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   title = 'conseil';
+  showStatusIndicator = true;
+  userServiceStatus = false;
+  rectificationServiceStatus = false;
+  reportServiceStatus = false;
   private wsService?: WebSocketService;
 
-  constructor(private injector: Injector) {}
+  constructor(private http: HttpClient , injector: Injector) {}
 
   ngOnInit(): void {
     // Add event listeners for browser close/refresh
@@ -39,5 +45,32 @@ export class AppComponent implements OnInit, OnDestroy {
     } catch (error) {
       // Service might not be available, ignore
     }
+
+  checkBackendServices(): void {
+    // Check User Service
+    this.http.get('http://localhost:8088/actuator/health', { responseType: 'text' })
+      .subscribe({
+        next: () => this.userServiceStatus = true,
+        error: () => this.userServiceStatus = false
+      });
+
+    // Check Rectification Service
+    this.http.get('http://localhost:8089/actuator/health', { responseType: 'text' })
+      .subscribe({
+        next: () => this.rectificationServiceStatus = true,
+        error: () => this.rectificationServiceStatus = false
+      });
+
+    // Check Report Service
+    this.http.get('http://localhost:8087/actuator/health', { responseType: 'text' })
+      .subscribe({
+        next: () => this.reportServiceStatus = true,
+        error: () => this.reportServiceStatus = false
+      });
+  }
+
+  toggleStatusIndicator(): void {
+    this.showStatusIndicator = !this.showStatusIndicator;
+
   }
 }
