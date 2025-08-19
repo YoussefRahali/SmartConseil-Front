@@ -29,10 +29,13 @@ export class RectificationManagementComponent implements OnInit {
 
   // Filter configurations
   rectificationFilterConfig: FilterConfig = {
-    searchFields: ['etudiantPrenom', 'etudiantNom', 'classe', 'option', 'justification', 'enseignantUsername'],
+    searchFields: ['etudiantPrenom', 'etudiantNom', 'classe', 'option', 'module', 'typeNote', 'session', 'justification', 'enseignantUsername'],
     filterFields: [
       { key: 'status', label: 'Statut', type: 'select' },
       { key: 'option', label: 'Option', type: 'select' },
+      { key: 'module', label: 'Module', type: 'select' },
+      { key: 'typeNote', label: 'Type', type: 'select' },
+      { key: 'session', label: 'Session', type: 'select' },
       { key: 'classe', label: 'Classe', type: 'select' }
     ]
   };

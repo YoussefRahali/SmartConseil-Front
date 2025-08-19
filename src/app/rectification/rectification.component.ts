@@ -16,6 +16,9 @@ export class RectificationComponent implements OnInit {
     etudiantNom: '',
     classe: '',
     option: '',
+    module: '',
+    typeNote: '',
+    session: '',
     ancienneNote: 0,
     nouvelleNote: 0,
     justification: ''
@@ -80,6 +83,9 @@ export class RectificationComponent implements OnInit {
       etudiantNom: '',
       classe: '',
       option: '',
+      module: '',
+      typeNote: '',
+      session: '',
       ancienneNote: 0,
       nouvelleNote: 0,
       justification: ''
