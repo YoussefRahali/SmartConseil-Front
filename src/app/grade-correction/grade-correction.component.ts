@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RectificationService, RectificationRequest, RectificationResponse, SmsVerification } from '../rectification/rectification.service';
 import { AuthService } from '../services/auth.service';
 import { FormDataService } from '../services/form-data.service';
+import { FilterConfig } from '../services/filter.service';
 
 @Component({
   selector: 'app-grade-correction',
@@ -16,6 +17,9 @@ export class GradeCorrectionComponent implements OnInit {
     etudiantNom: '',
     classe: '',
     option: '',
+    module: '',
+    typeNote: '',
+    session: '',
     ancienneNote: 0,
     nouvelleNote: 0,
     justification: ''
@@ -38,13 +42,43 @@ export class GradeCorrectionComponent implements OnInit {
 
   // Data
   myRequests: RectificationResponse[] = [];
+  filteredMyRequests: RectificationResponse[] = [];
   history: RectificationResponse[] = [];
+  filteredHistory: RectificationResponse[] = [];
 
   // Form dropdown data
   secteurs: string[] = [];
   options: string[] = [];
   classes: string[] = [];
   justifications: string[] = [];
+  modules: string[] = [];
+  // Filter configurations for My Requests and History
+  myRequestsFilterConfig: FilterConfig = {
+    searchFields: ['etudiantPrenom','etudiantNom','classe','option','module','typeNote','session','justification'],
+    filterFields: [
+      { key: 'option', label: 'Option', type: 'select' },
+      { key: 'module', label: 'Module', type: 'select' },
+      { key: 'typeNote', label: 'Type', type: 'select' },
+      { key: 'session', label: 'Session', type: 'select' },
+      { key: 'classe', label: 'Classe', type: 'select' },
+      { key: 'status', label: 'Statut', type: 'select' }
+    ]
+  };
+
+  historyFilterConfig: FilterConfig = {
+    searchFields: ['etudiantPrenom','etudiantNom','classe','option','module','typeNote','session','justification'],
+    filterFields: [
+      { key: 'option', label: 'Option', type: 'select' },
+      { key: 'module', label: 'Module', type: 'select' },
+      { key: 'typeNote', label: 'Type', type: 'select' },
+      { key: 'session', label: 'Session', type: 'select' },
+      { key: 'classe', label: 'Classe', type: 'select' },
+      { key: 'status', label: 'Statut', type: 'select' }
+    ]
+  };
+
+  typeNotes: string[] = ['TP', 'CC', 'Examen', 'PI'];
+  sessions: string[] = ['Principale', 'Rattrapage'];
 
   // Selected values for cascading dropdowns
   selectedSecteur: string = '';
@@ -78,14 +112,46 @@ export class GradeCorrectionComponent implements OnInit {
 
   onOptionChange(): void {
     this.classes = this.formDataService.getClassesByOption(this.selectedOption);
+    this.modules = this.formDataService.getModulesByOption(this.selectedOption);
     this.formData.option = this.selectedOption;
     this.formData.classe = '';
+    this.formData.module = '';
+  }
+
+  onMyRequestsFilterChange(filterData: { searchTerm: string, filters: any }): void {
+    // Simple local filtering; reuse history as needed later
+    this.filteredMyRequests = this.myRequests.filter(item => {
+      const matchesSearch = !filterData.searchTerm || JSON.stringify(item).toLowerCase().includes(filterData.searchTerm.toLowerCase());
+      const f = filterData.filters || {};
+      const matchesOption = !f.option || item.option === f.option;
+      const matchesModule = !f.module || item.module === f.module;
+      const matchesType = !f.typeNote || item.typeNote === f.typeNote;
+      const matchesSession = !f.session || item.session === f.session;
+      const matchesClasse = !f.classe || item.classe === f.classe;
+      const matchesStatus = !f.status || item.status === f.status;
+      return matchesSearch && matchesOption && matchesModule && matchesType && matchesSession && matchesClasse && matchesStatus;
+    });
+  }
+
+  onHistoryFilterChange(filterData: { searchTerm: string, filters: any }): void {
+    this.filteredHistory = this.history.filter(item => {
+      const matchesSearch = !filterData.searchTerm || JSON.stringify(item).toLowerCase().includes(filterData.searchTerm.toLowerCase());
+      const f = filterData.filters || {};
+      const matchesOption = !f.option || item.option === f.option;
+      const matchesModule = !f.module || item.module === f.module;
+      const matchesType = !f.typeNote || item.typeNote === f.typeNote;
+      const matchesSession = !f.session || item.session === f.session;
+      const matchesClasse = !f.classe || item.classe === f.classe;
+      const matchesStatus = !f.status || item.status === f.status;
+      return matchesSearch && matchesOption && matchesModule && matchesType && matchesSession && matchesClasse && matchesStatus;
+    });
   }
 
   loadMyRequests(): void {
     this.rectificationService.getMyRequests().subscribe({
       next: (data) => {
         this.myRequests = data;
+        this.filteredMyRequests = [...this.myRequests];
       },
       error: (error) => {
         console.error('Error loading requests:', error);
@@ -97,6 +163,7 @@ export class GradeCorrectionComponent implements OnInit {
     this.rectificationService.getHistory().subscribe({
       next: (data) => {
         this.history = data;
+        this.filteredHistory = [...this.history];
       },
       error: (error) => {
         console.error('Error loading history:', error);
@@ -117,14 +184,14 @@ export class GradeCorrectionComponent implements OnInit {
         this.isSubmitting = false;
         this.submissionSuccess = true;
         this.successMessage = 'Demande de rectification créée avec succès. Veuillez vérifier votre SMS.';
-        
+
         // Show SMS verification modal
         this.smsVerification.rectificationId = response.id;
         this.showSmsModal = true;
-        
+
         // Reset form
         this.resetForm();
-        
+
         // Reload data
         this.loadMyRequests();
       },
@@ -186,12 +253,24 @@ export class GradeCorrectionComponent implements OnInit {
       this.errorMessage = 'Le nom de l\'étudiant est requis';
       return false;
     }
-    if (!this.formData.classe.trim()) {
-      this.errorMessage = 'La classe est requise';
-      return false;
-    }
     if (!this.formData.option.trim()) {
       this.errorMessage = 'L\'option est requise';
+      return false;
+    }
+    if (!this.formData.module || !this.formData.module.trim()) {
+      this.errorMessage = 'Le module est requis';
+      return false;
+    }
+    if (!this.formData.typeNote || !this.formData.typeNote.trim()) {
+      this.errorMessage = 'Le type de note est requis';
+      return false;
+    }
+    if (!this.formData.session || !this.formData.session.trim()) {
+      this.errorMessage = 'La session est requise';
+      return false;
+    }
+    if (!this.formData.classe.trim()) {
+      this.errorMessage = 'La classe est requise';
       return false;
     }
     if (this.formData.ancienneNote < 0 || this.formData.ancienneNote > 20) {
@@ -215,6 +294,9 @@ export class GradeCorrectionComponent implements OnInit {
       etudiantNom: '',
       classe: '',
       option: '',
+      module: '',
+      typeNote: '',
+      session: '',
       ancienneNote: 0,
       nouvelleNote: 0,
       justification: ''
@@ -223,6 +305,7 @@ export class GradeCorrectionComponent implements OnInit {
     this.selectedOption = '';
     this.options = [];
     this.classes = [];
+    this.modules = [];
   }
 
   closeSmsModal(): void {

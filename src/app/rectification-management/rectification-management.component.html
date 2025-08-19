@@ -44,6 +44,9 @@
                   <th>Étudiant</th>
                   <th>Classe</th>
                   <th>Option</th>
+                  <th>Module</th>
+                  <th>Type</th>
+                  <th>Session</th>
                   <th>Notes</th>
                   <th>Différence</th>
                   <th>Justification</th>
@@ -63,6 +66,9 @@
                   <td>
                     <span class="badge bg-secondary">{{ request.option }}</span>
                   </td>
+                  <td>{{ request.module || '-' }}</td>
+                  <td>{{ request.typeNote || '-' }}</td>
+                  <td>{{ request.session || '-' }}</td>
                   <td>
                     <div class="d-flex align-items-center">
                       <span class="me-2">{{ request.ancienneNote }}</span>
@@ -135,6 +141,9 @@
                   <th>Étudiant</th>
                   <th>Classe</th>
                   <th>Option</th>
+                  <th>Module</th>
+                  <th>Type</th>
+                  <th>Session</th>
                   <th>Notes</th>
                   <th>Statut</th>
                   <th>Date Demande</th>
@@ -150,6 +159,9 @@
                   <td>
                     <span class="badge bg-secondary">{{ item.option }}</span>
                   </td>
+                  <td>{{ item.module || '-' }}</td>
+                  <td>{{ item.typeNote || '-' }}</td>
+                  <td>{{ item.session || '-' }}</td>
                   <td>
                     <div class="d-flex align-items-center">
                       <span class="me-2">{{ item.ancienneNote }}</span>
