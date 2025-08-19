@@ -1,5 +1,6 @@
 <header class="app-header">
   <nav class="navbar navbar-expand-lg navbar-light w-100">
+    <!-- Left side - Mobile menu toggle -->
     <div class="d-flex align-items-center">
       <ul class="navbar-nav">
         <li class="nav-item d-block d-xl-none">
@@ -9,9 +10,30 @@
         </li>
       </ul>
     </div>
+
+
+    <div class="navbar-center d-none d-lg-flex">
+      <div class="navbar-welcome">
+        <div class="navbar-welcome-text">Bienvenue {{currentUser?.username}}</div>
+        <div class="navbar-welcome-subtitle" *ngIf="currentUser?.role === 'admin'">
+          Tableau de bord Administrateur - Gestion complète du système
+        </div>
+        <div class="navbar-welcome-subtitle" *ngIf="currentUser?.role === 'enseignant'">
+          Tableau de bord Enseignant - Gestion des cours et évaluations
+        </div>
+        <div class="navbar-welcome-subtitle" *ngIf="currentUser?.role === 'chef departement'">
+          Tableau de bord Chef de Département - Supervision et coordination
+        </div>
+        <div class="navbar-welcome-subtitle" *ngIf="currentUser?.role === 'rapporteur'">
+          Tableau de bord Rapporteur - Gestion des rapports et analyses
+        </div>
+      </div>
+    </div>
+
+    <!-- Right side - Notifications and Profile -->
     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
       <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-        <!-- Notifications (can be added later) -->
+        <!-- Notifications -->
         <li class="nav-item dropdown me-3">
           <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop1" data-bs-toggle="dropdown"
             aria-expanded="false">

@@ -92,9 +92,7 @@ export class FilterService {
     });
   }
 
-  /**
-   * Paginate data
-   */
+
   paginateData<T>(data: T[], page: number, pageSize: number): { data: T[], totalPages: number, totalItems: number } {
     const totalItems = data.length;
     const totalPages = Math.ceil(totalItems / pageSize);

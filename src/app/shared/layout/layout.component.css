@@ -1,7 +1,7 @@
 /* Enhanced Layout Styles */
 .page-wrapper {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #f8f9fa 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 50%, #ffffff 100%);
   position: relative;
 }
 
@@ -23,6 +23,7 @@
   margin-left: 280px; /* pushes content to the right */
   padding-top: 80px;  /* leaves space for fixed navbar */
   flex-grow: 1;
+  background:white;
 }
 
 

@@ -8,9 +8,6 @@ export interface RectificationRequest {
   etudiantNom: string;
   classe: string;
   option: string;
-  module: string; // new
-  typeNote: string; // TP | CC | EXAMEN | PI
-  session: string; // PRINCIPALE | RATTRAPAGE
   ancienneNote: number;
   nouvelleNote: number;
   justification: string;
@@ -22,9 +19,6 @@ export interface RectificationResponse {
   etudiantNom: string;
   classe: string;
   option: string;
-  module?: string;
-  typeNote?: string;
-  session?: string;
   ancienneNote: number;
   nouvelleNote: number;
   justification: string;
@@ -121,9 +115,6 @@ export class RectificationService {
       etudiantNom: rectification.etudiantNom,
       classe: rectification.classe,
       option: rectification.option,
-      module: '',
-      typeNote: '',
-      session: '',
       ancienneNote: rectification.ancienneNote,
       nouvelleNote: rectification.nouvelleNote,
       justification: rectification.justification

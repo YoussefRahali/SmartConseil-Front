@@ -10,12 +10,12 @@
   border-bottom: 1px solid rgba(0, 123, 255, 0.1);
   transition: all 0.3s ease;
   backdrop-filter: blur(15px);
-  height: 80px;
+  height: 100px;
 }
 
 .navbar {
-  padding: 1rem 2rem;
-  min-height: 80px;
+  padding: 1.5rem 2rem;
+  min-height: 100px;
   background: transparent;
   height: 100%;
   display: flex;
@@ -219,5 +219,54 @@
 @media (max-width: 1199.98px) {
   .sidebar-collapsed .app-header {
     left: 0;
+  }
+}
+
+/* Center Welcome Message Styles */
+.navbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.navbar-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-welcome-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 0.25rem;
+}
+
+.navbar-welcome-subtitle {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #000000;
+  line-height: 1.3;
+  max-width: 400px;
+}
+
+/* Responsive styles for welcome message */
+@media (max-width: 1399.98px) {
+  .navbar-welcome-text {
+    font-size: 1.2rem;
+  }
+
+  .navbar-welcome-subtitle {
+    font-size: 0.8rem;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .navbar-center {
+    display: none !important;
   }
 }

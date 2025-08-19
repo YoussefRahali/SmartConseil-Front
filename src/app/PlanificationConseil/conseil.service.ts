@@ -6,6 +6,8 @@ import { Utilisateur } from '../utilisateur/Utilisateur';
 import { Salle } from './salle/Salle';
 import { Conseil } from './conseil/Conseil';
 import { ConseilUtilisateur } from './conseil/ConseilUtilisateur';
+import { Option } from './option/Option';
+import { Classe } from './classe/Classe';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +30,7 @@ getUsers(): Observable<Utilisateur[]> {
 }
 assignerUtilisateursAuConseil(conseilId: number, conseilUtilisateurs: ConseilUtilisateur[]): Observable<any> {
   const url = `${this.baseURL}/assignerUtilisateurs/${conseilId}`;
-  return this.http.put(url, conseilUtilisateurs); 
+  return this.http.put(url, conseilUtilisateurs);
 }
 
   addSalle(salle: Salle): Observable<Salle> {
@@ -90,9 +92,26 @@ updateDeroulement(conseilId: number, message: string): Observable<any> {
     headers: { 'Content-Type': 'text/plain' }  // important : type texte
   });
 }
+// Méthodes pour les options et classes
+getOptions(): Observable<Option[]> {
+  return this.http.get<Option[]>(`${this.baseURL}/options`);
+}
 
+getClassesByOption(optionId: number): Observable<Classe[]> {
+  return this.http.get<Classe[]>(`${this.baseURL}/classes/option/${optionId}`);
+}
 
+addOption(option: Option): Observable<Option> {
+  return this.http.post<Option>(`${this.baseURL}/options`, option);
+}
 
+addClasse(classe: Classe): Observable<Classe> {
+  return this.http.post<Classe>(`${this.baseURL}/classes`, classe);
+}
 
+// Méthode pour importer des données Excel
+importExcelData(formData: FormData): Observable<any> {
+  return this.http.post<any>(`${this.baseURL}/importExcel`, formData);
+}
 
 }

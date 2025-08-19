@@ -37,12 +37,33 @@ export class NavigationService {
       route: '/dashboard-rapporteur',
       roles: ['rapporteur']
     },
+        {
+      id: 'dashboard-rapporteur',
+      title: 'Gerer les Conseils',
+      icon: 'ti ti-layout-dashboard',
+      route: '/rapporteurConseil',
+      roles: ['rapporteur']
+    },
     {
       id: 'dashboard-admin',
       title: 'Tableau de Bord',
       icon: 'ti ti-layout-dashboard',
       route: '/dashboard-admin',
       roles: ['admin']
+    },
+        {
+      id: 'dashboard-admin',
+      title: 'Gerer le Conseil',
+      icon: 'ti ti-layout-dashboard',
+      route: '/conseil',
+      roles: ['admin']
+    },
+    {
+      id: 'gestion-options',
+      title: 'Gestion Options & Classes',
+      icon: 'ti ti-settings',
+      route: '/gestion-options',
+      roles: ['admin', 'chef departement']
     },
     {
       id: 'grade-correction',
@@ -51,6 +72,20 @@ export class NavigationService {
       route: '/grade-correction',
       roles: ['enseignant']
     },
+        {
+      id: 'grade-correction',
+      title: 'Liste des Cosneils',
+      icon: 'ti ti-edit-circle',
+      route: '/enseignant-conseil',
+      roles: ['enseignant']
+    },
+            {
+      id: 'grade-correction',
+      title: 'Liste des Conseils',
+      icon: 'ti ti-edit-circle',
+      route: '/president',
+      roles: ['president']
+    },
     {
       id: 'rectification-management',
       title: 'Gestion Rectifications',
@@ -58,13 +93,13 @@ export class NavigationService {
       route: '/rectification-management',
       roles: ['chef departement']
     },
-    
+
     {
       id: 'profile',
       title: 'Mon Profil',
       icon: 'ti ti-user',
       route: '/profile',
-      roles: ['enseignant', 'chef departement', 'rapporteur', 'admin']
+      roles: ['enseignant', 'chef departement', 'rapporteur', 'admin','president']
     }
   ];
 
@@ -74,7 +109,7 @@ export class NavigationService {
    * Get navigation items filtered by user role
    */
   getNavigationItems(userRole: string): NavigationItem[] {
-    return this.navigationItems.filter(item => 
+    return this.navigationItems.filter(item =>
       item.roles.includes(userRole)
     );
   }
@@ -114,7 +149,7 @@ export class NavigationService {
       case 'admin':
         return '/dashboard-admin';
       case 'president':
-        return '/president';
+         return '/president';
       default:
         return '/dashboard';
     }
@@ -125,10 +160,10 @@ export class NavigationService {
    */
   getRoleSpecificItems(userRole: string): NavigationItem[] {
     const baseItems = this.getNavigationItems(userRole);
-    
+
     // Add role-specific customizations
     switch (userRole) {
-      
+
       default:
         return baseItems;
     }

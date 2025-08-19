@@ -290,6 +290,121 @@ form {
   flex: 100%;
 }
 
+/* Styles pour l'import Excel */
+.import-excel-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.import-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.import-btn:hover {
+  background-color: #45a049;
+}
+
+.import-message {
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.import-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.import-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.3s ease;
+}
+
+.import-info {
+    margin-top: 8px;
+    color: #6c757d;
+    font-size: 12px;
+  }
+
+  /* Styles pour le tableau des données importées */
+  .toggle-data-btn {
+    margin-top: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .toggle-data-btn:hover {
+    background-color: #0069d9;
+  }
+
+  .imported-data-table {
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+
+  .imported-data-table h4 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .imported-data-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .imported-data-table th,
+  .imported-data-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+
+  .imported-data-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+  }
+
+  .imported-data-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  .imported-data-table tr:hover {
+    background-color: #e9ecef;
+  }
+
 label {
   font-size: 14px;
   font-weight: 500;
@@ -338,4 +453,60 @@ button.primary {
 button.secondary {
   background-color: #f1f1f1;
   color: #000;
+}
+
+/* Content Centering and Layout Fixes */
+:host {
+  display: block;
+  width: 100%;
+}
+
+.ajout-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+/* Ensure proper alignment */
+.container-fluid {
+  text-align: left;
+  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+}
+
+/* Fix any right alignment issues */
+* {
+  box-sizing: border-box;
+}
+
+/* Remove any unwanted margins or padding that could cause right alignment */
+.body-wrapper,
+.body-wrapper-inner {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* Ensure all main containers are properly centered */
+.welcome-header,
+.header-container,
+.stats-container {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+/* Additional responsive fixes */
+@media (max-width: 768px) {
+  .ajout-content {
+    padding: 0 0.5rem;
+  }
+
+  .welcome-header,
+  .header-container {
+    margin: 0 auto 2rem auto;
+  }
 }

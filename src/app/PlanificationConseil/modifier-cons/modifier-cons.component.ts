@@ -1,20 +1,17 @@
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { RouterModule, Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { ConseilService } from '../conseil.service';
 import { Utilisateur } from 'src/app/utilisateur/Utilisateur';
 import { Conseil } from '../conseil/Conseil';
 import { ConseilDTO } from '../conseil/ConseilDTO';
 import { Salle } from '../salle/Salle';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-modifier-cons',
   templateUrl: './modifier-cons.component.html',
-  styleUrls: ['./modifier-cons.component.css'],
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule]
+  styleUrls: ['./modifier-cons.component.css']
 })
 export class ModifierConsComponent implements OnInit {
 
@@ -123,7 +120,8 @@ export class ModifierConsComponent implements OnInit {
         conseilUtilisateurs: this.conseil.conseilUtilisateurs || [],
         etat: this.conseil.etat,
         deroulement: this.conseil.deroulement,
-        token: this.conseil.token
+        token: this.conseil.token,
+        option: this.conseil.option
       };
 
       console.log('Conseil à modifier:', conseilModifie);

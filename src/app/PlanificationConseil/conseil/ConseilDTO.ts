@@ -4,12 +4,13 @@ export class ConseilDTO {
 
     id!: number;
   date!: Date;
-    heure!: string; 
+    heure!: string;
 
   duree!: string;
   description!: string;
 
-  classes!: string;
+  optionId!: number;
+  classeIds!: number[];
   salleId!: number;
   presidentId!:number
 raporteurId!:number

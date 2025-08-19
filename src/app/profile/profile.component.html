@@ -1,9 +1,4 @@
 <app-layout>
-      <!-- Profile Header -->
-      <div class="welcome-header">
-        <h1>Mon Profil</h1>
-        <p>Gérez vos informations personnelles et professionnelles</p>
-      </div>
 
       <!-- Success/Error Messages -->
       <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -296,7 +291,7 @@
 
                           <!-- Confirm Password -->
                           <div class="col-md-4 mb-3">
-                            <label for="confirmPassword" class="form-label">Confirmer mot de passe</label>
+                            <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
                             <input
                               type="password"
                               class="form-control"
@@ -316,14 +311,13 @@
 
                         <!-- Password change buttons -->
                         <div class="d-flex gap-2">
-                          <!-- 
                           <button
                             type="button"
                             class="btn btn-outline-info btn-sm"
                             (click)="testBackend()">
                             <i class="ti ti-server me-1"></i>
                             Test Backend
-                          </button> -->
+                          </button>
 
                           <button
                             *ngIf="!isChangingPassword"

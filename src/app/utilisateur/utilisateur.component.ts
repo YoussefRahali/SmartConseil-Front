@@ -11,7 +11,7 @@ import { UtilisateurService } from './utilisateur.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { Utilisateur } from './Utilisateur';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { WebcamImage } from 'ngx-webcam';
 import { HttpClient } from '@angular/common/http';
 
@@ -36,8 +36,9 @@ faceVerified: boolean = false;
   
   resultMessage: string = '';
 
-  trigger: Subject<void> = new Subject<void>();
- webcamImage: WebcamImage | null = null;
+  private trigger: Subject<void> = new Subject<void>();
+  public triggerObservable: Observable<void> = this.trigger.asObservable();
+  webcamImage: WebcamImage | null = null;
   user: Utilisateur = new Utilisateur();
 
   constructor(

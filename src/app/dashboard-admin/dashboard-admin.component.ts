@@ -3,7 +3,6 @@ import { AuthService, User } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FilterService, FilterConfig } from '../services/filter.service';
-import { RectificationResponse } from '../rectification/rectification.service';
 
 interface UserStatistics {
   totalUsers: number;
@@ -73,26 +72,6 @@ export class DashboardAdminComponent implements OnInit {
   errorMessage = '';
   successMessage = '';
 
-  // All rectifications for admin view
-  allRectifications: RectificationResponse[] = [];
-  filteredRectifications: RectificationResponse[] = [];
-
-  // Filters for admin rectifications
-  rectificationFilterConfig: FilterConfig = {
-    searchFields: ['etudiantPrenom','etudiantNom','classe','option','module','typeNote','session','enseignantUsername','chefDepartementUsername','justification'],
-    filterFields: [
-      { key: 'status', label: 'Statut', type: 'select' },
-      { key: 'option', label: 'Option', type: 'select' },
-      { key: 'module', label: 'Module', type: 'select' },
-      { key: 'typeNote', label: 'Type', type: 'select' },
-      { key: 'session', label: 'Session', type: 'select' },
-      { key: 'classe', label: 'Classe', type: 'select' },
-      { key: 'enseignantUsername', label: 'Enseignant', type: 'select' },
-      { key: 'chefDepartementUsername', label: 'Chef', type: 'select' }
-    ]
-  };
-
-
   // Filter configuration
   userFilterConfig: FilterConfig = {
     searchFields: ['username', 'email', 'role', 'poste', 'secteur'],
@@ -107,7 +86,7 @@ export class DashboardAdminComponent implements OnInit {
   isUserModalOpen = false;
   selectedUser: any = null;
   isEditMode = false;
-
+  
   // New user form
   newUser: any = {
     username: '',
@@ -123,15 +102,15 @@ export class DashboardAdminComponent implements OnInit {
     'enseignant',
     'chef departement',
     'rapporteur',
-    'admin',
-    'president'
+    'admin'
   ];
 
   secteurs = [
-    'Informatique',
-    'Télécommunications',
-    'EM',
-    'GC'
+    'informatique',
+    'mathématique',
+    'telecommunication',
+    'ml',
+    'gc'
   ];
 
   constructor(
@@ -158,7 +137,6 @@ export class DashboardAdminComponent implements OnInit {
     this.loadReportStatistics();
     this.loadRectificationStatistics();
     this.loadSystemHealth();
-    this.loadAllRectifications();
     this.loadRecentActivities();
   }
 
@@ -228,30 +206,6 @@ export class DashboardAdminComponent implements OnInit {
       });
   }
 
-  loadAllRectifications(): void {
-    const headers = this.authService.getAuthHeaders();
-    this.http.get<RectificationResponse[]>('http://localhost:8089/api/rectification', { headers })
-      .subscribe({
-        next: (data) => {
-          this.allRectifications = data;
-          this.filteredRectifications = [...data];
-        },
-        error: (error) => {
-          console.error('Error loading all rectifications:', error);
-        }
-      });
-  }
-
-  onAdminRectFilterChange(filterData: { searchTerm: string, filters: any }): void {
-    this.filteredRectifications = this.filterService.filterData(
-      this.allRectifications,
-      filterData.searchTerm,
-      filterData.filters,
-      this.rectificationFilterConfig
-    );
-  }
-
-
   loadSystemHealth(): void {
     const headers = this.authService.getAuthHeaders();
     this.http.get<SystemHealth>('http://localhost:8088/api/users/admin/system-health', { headers })
@@ -282,7 +236,7 @@ export class DashboardAdminComponent implements OnInit {
     this.isUserModalOpen = true;
     this.errorMessage = '';
     this.successMessage = '';
-
+    
     if (user) {
       this.isEditMode = true;
       this.selectedUser = user;
@@ -355,7 +309,7 @@ export class DashboardAdminComponent implements OnInit {
 
   updateUser(): void {
     if (!this.selectedUser) return;
-
+    
     this.isLoading = true;
     const headers = this.authService.getAuthHeaders();
     this.http.put(`http://localhost:8088/api/users/admin/update/${this.selectedUser.id}`, this.newUser, { headers })

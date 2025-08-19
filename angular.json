@@ -13,9 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": {
-              "base": "dist/conseil"
-            },
+            "outputPath": "dist/conseil",
             "index": "src/index.html",
             "polyfills": [
               "zone.js",
@@ -32,8 +30,8 @@
             "scripts": [],
             "browser": "src/main.ts",
             "allowedCommonJsDependencies": [
-              "sockjs-client"
-            ]
+      "sockjs-client"
+    ]
             
           },
           "configurations": {
@@ -41,13 +39,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1mb",
-                  "maximumError": "2mb"
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "16kb",
-                  "maximumError": "32kb"
+                  "maximumWarning": "4kb",
+                  "maximumError": "6kb"
                 }
               ],
               "outputHashing": "all"
@@ -55,20 +53,22 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "conseil:build"
+          },
           "configurations": {
             "production": {
-              "buildTarget": "conseil:build:production"
+              "browserTarget": "conseil:build:production"
             },
             "development": {
-              "buildTarget": "conseil:build:development"
+              "browserTarget": "conseil:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "conseil:build"
+            "browserTarget": "conseil:build"
           }
         },
         "test": {

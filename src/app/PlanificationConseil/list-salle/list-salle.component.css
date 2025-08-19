@@ -242,7 +242,63 @@ select:focus {
 select:hover {
   border-color: #888;
 }
-.room-card h5, 
+.room-card h5,
     .room-card p {
       margin-left: 0 !important;
     }
+
+/* Content Centering and Layout Fixes */
+:host {
+  display: block;
+  width: 100%;
+}
+
+.salle-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+/* Ensure proper alignment */
+.container-fluid {
+  text-align: left;
+  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+}
+
+/* Fix any right alignment issues */
+* {
+  box-sizing: border-box;
+}
+
+/* Remove any unwanted margins or padding that could cause right alignment */
+.body-wrapper,
+.body-wrapper-inner {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* Ensure all main containers are properly centered */
+.welcome-header,
+.header-container,
+.stats-container {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+/* Additional responsive fixes */
+@media (max-width: 768px) {
+  .salle-content {
+    padding: 0 0.5rem;
+  }
+
+  .welcome-header,
+  .header-container {
+    margin: 0 auto 2rem auto;
+  }
+}

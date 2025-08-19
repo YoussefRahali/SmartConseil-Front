@@ -1,107 +1,9 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Flexy Free Bootstrap Admin Template by WrapPixel</title>
-</head>
-
-<body>
-  <!--  Body Wrapper -->
-  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
-
-    <!-- Sidebar Start -->
-    <aside class="left-sidebar">
-      <!-- Sidebar scroll-->
-      <div>
-        <div>
-          <a href="./index.html">
-            <img src="assets/images/logos/esprit.png" alt=""
-              style="width: 180px; height: auto; display: block; margin-left: 40px;" />
-          </a>
-          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-            <i class="ti ti-x fs-6"></i>
-          </div>
-        </div>
-
-        <!-- Sidebar navigation-->
-        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-          <ul id="sidebarnav">
-            <li class="nav-small-cap">
-              <span class="hide-menu">Home</span>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="./index.html" aria-expanded="false">
-                <i class="ti ti-atom"></i>
-                <span class="hide-menu">Dashboard</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="./index.html" aria-expanded="false">
-                <i class="ti ti-atom"></i>
-                <span class="hide-menu">Rectification des Notes</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="./index.html" aria-expanded="false">
-                <i class="ti ti-atom"></i>
-                <span class="hide-menu">Planification Conseils</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="./index.html" aria-expanded="false">
-                <i class="ti ti-atom"></i>
-                <span class="hide-menu">Gestions rapports</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="./index.html" aria-expanded="false">
-                <i class="ti ti-atom"></i>
-                <span class="hide-menu">Gestion Conseil</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="./index.html" aria-expanded="false">
-                <i class="ti ti-atom"></i>
-                <span class="hide-menu">Statistique</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <!-- End Sidebar navigation -->
-      </div>
-      <!-- End Sidebar scroll-->
-    </aside>
-    <!--  Sidebar End -->
-
-    <!--  Main wrapper -->
-    <div class="body-wrapper">
-      <!--  Header Start -->
-      <header class="app-header">
-      </header>
-      <!--  Header End -->
-
-      <div class="body-wrapper-inner">
-        <div class="container-fluid">
-
-          <div class="welcome-header">
-            <h1>Bienvenue dans votre espace</h1>
-            <p>Gérez efficacement vos activités académiques depuis ce tableau de bord</p>
-          </div>
-
-          <!-- Bouton pour ouvrir la modale -->
-          <div class="header-container">
+<app-layout>
+  <div class="ajout-content">
+    <div class="header-container">
             <div class="header-text">
-              <h2>Gestion des Utilisateurs</h2>
-              <p>Module 1 - Gestion des profils et authentification</p>
+              <h2>Gestion des Conseils</h2>
+              <p>Module 1 - Gestion des Planification et Conseil</p>
             </div>
             <button class="add-user-btn">
               <span class="icon">👤</span> Nouveau Conseil
@@ -115,21 +17,16 @@
       <h2>Informations du Conseil</h2>
       <p class="subtitle">Remplissez les détails du nouveau conseil de classe</p>
 
-      <!-- CLASSE + DATE -->
+      <!-- OPTION + DATE -->
       <div class="row">
         <div class="field">
-          <label>Classe</label>
-          <select class="form-select" formControlName="classes">
-            <option value="">Sélectionner une classe</option>
-            <option value="1A">1A</option>
-            <option value="1B">1B</option>
-            <option value="2A">2A</option>
-            <option value="2B">2B</option>
-            <option value="3A">3A</option>
-            <option value="4SAE">4SAE</option>
+          <label>Option</label>
+          <select class="form-select" formControlName="optionId" (change)="onOptionChange($any($event.target).value)">
+            <option value="">Sélectionner une option</option>
+            <option *ngFor="let option of Options" [value]="option.id">{{ option.nom }}</option>
           </select>
-          <div *ngIf="ConseilForm.get('classes')?.touched && ConseilForm.get('classes')?.invalid" class="error">
-            La classe est obligatoire.
+          <div *ngIf="ConseilForm.get('optionId')?.touched && ConseilForm.get('optionId')?.invalid" class="error">
+            L'option est obligatoire.
           </div>
         </div>
 
@@ -138,6 +35,26 @@
           <input type="date" placeholder="jj/mm/aaaa" formControlName="date" />
           <div *ngIf="ConseilForm.get('date')?.touched && ConseilForm.get('date')?.invalid" class="error">
             La date est obligatoire.
+          </div>
+        </div>
+      </div>
+
+      <!-- CLASSES -->
+      <div class="row" *ngIf="Classes.length > 0">
+        <div class="field full">
+          <label>Classes concernées</label>
+          <div class="classes-container">
+            <div *ngFor="let classe of Classes" class="classe-checkbox">
+              <input
+                type="checkbox"
+                [id]="'classe-' + classe.id"
+                [value]="classe.id"
+                (change)="onClasseChange(classe.id, $any($event.target).checked)">
+              <label [for]="'classe-' + classe.id">{{ classe.nom }}</label>
+            </div>
+          </div>
+          <div *ngIf="ConseilForm.get('classeIds')?.touched && selectedClasseIds.length === 0" class="error">
+            Au moins une classe doit être sélectionnée.
           </div>
         </div>
       </div>
@@ -219,9 +136,111 @@
         </div>
       </div>
 
+      <!-- IMPORT EXCEL -->
+      <div class="row">
+        <div class="field full">
+          <label>Import Excel des participants</label>
+          <div class="import-excel-container">
+            <input type="file" id="excelFile" (change)="onFileSelected($event)" accept=".xlsx, .xls" />
+            <button type="button" class="import-btn" (click)="importExcel()">
+              <span>📄</span> Importer Excel
+            </button>
+          </div>
+          <!-- Messages d'import -->
+          <div *ngIf="importMessage" class="import-message" [ngClass]="{'success': importSuccess, 'error': importError}">
+            {{ importMessage }}
+          </div>
+          <!-- Barre de progression -->
+          <div *ngIf="progressInfo > 0" class="progress-bar-container">
+            <div class="progress-bar" [style.width.%]="progressInfo"></div>
+          </div>
+          <div class="import-info">
+            <small>Format attendu: NO, Option, ID_ET, Nom, Prenom, e_mail_et, ADRESSE_MAIL_ESP</small>
+          </div>
+          
+          <!-- Bouton pour afficher/masquer les données importées -->
+          <button *ngIf="importedData.length > 0" type="button" class="toggle-data-btn" (click)="toggleImportedDataDisplay()">
+            {{ showImportedData ? 'Masquer' : 'Afficher' }} les données importées
+          </button>
+          
+          <!-- Tableau des données importées -->
+          <div *ngIf="showImportedData && importedData.length > 0" class="imported-data-table">
+            <h4>Données importées</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>NO</th>
+                  <th>Option</th>
+                  <th>ID_ET</th>
+                  <th>Nom</th>
+                  <th>Prénom</th>
+                  <th>Email Étudiant</th>
+                  <th>Email ESP</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of importedData">
+                  <td>{{ data.no }}</td>
+                  <td>{{ data.option }}</td>
+                  <td>{{ data.idEt }}</td>
+                  <td>{{ data.nom }}</td>
+                  <td>{{ data.prenom }}</td>
+                  <td>{{ data.emailEt }}</td>
+                  <td>{{ data.adresseMailEsp }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+
+
+         <div class="row">
+        <div class="field full">
+          <label>Import Excel des participants</label>
+          <div class="import-excel-container">
+            <input type="file" id="excelFile" (change)="onFileSelected1($event)" accept=".xlsx, .xls" />
+            <button type="button" class="import-btn" (click)="importExcelEleve()">
+              <span>📄</span> Importer Excel
+            </button>
+          </div>
+          <!-- Messages d'import -->
+          <div *ngIf="importMessage1" class="import-message" [ngClass]="{'success': importSuccess1, 'error': importError1}">
+            {{ importMessage1 }}
+          </div>
+          <!-- Barre de progression -->
+          <div *ngIf="progressInfo1 > 0" class="progress-bar-container">
+            <div class="progress-bar" [style.width.%]="progressInfo"></div>
+          </div>
+          <div class="import-info">
+            <small>Format attendu: NO, Option, ID_ET, Nom, Prenom, e_mail_et, ADRESSE_MAIL_ESP</small>
+          </div>
+          
+          <!-- Bouton pour afficher/masquer les données importées -->
+          <button *ngIf="importedData.length > 0" type="button" class="toggle-data-btn" (click)="toggleImportedDataDisplay()">
+            {{ showImportedData ? 'Masquer' : 'Afficher' }} les données importées
+          </button>
+
+       
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+      
       <!-- BOUTONS -->
       <div class="actions">
-        <button type="submit" class="primary">
+        <button type="submit" class="primary" >
           <span>📅</span> Créer le conseil
         </button>
         <button type="button" class="secondary">Annuler</button>
@@ -247,23 +266,51 @@
     font-size: 0.85rem;
     margin-top: 4px;
   }
+
+  .classes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .classe-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .classe-checkbox:hover {
+    background-color: #f0f8ff;
+    border-color: #007bff;
+  }
+
+  .classe-checkbox input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .classe-checkbox label {
+    margin: 0;
+    cursor: pointer;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .field.full {
+    width: 100%;
+  }
 </style>
 
-
-        </div> <!-- end container-fluid -->
-      </div> <!-- end body-wrapper-inner -->
-    </div> <!-- end body-wrapper -->
-  </div> <!-- end page-wrapper -->
-
-  <!-- JS includes -->
-  <script src="./assets/libs/jquery/dist/jquery.min.js"></script>
-  <script src="./assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="./assets/js/sidebarmenu.js"></script>
-  <script src="./assets/js/app.min.js"></script>
-  <script src="./assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-  <script src="./assets/libs/simplebar/dist/simplebar.js"></script>
-  <script src="./assets/js/dashboard.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-</body>
-
-</html>
+  </div> <!-- Fermeture de ajout-content -->
+</app-layout>

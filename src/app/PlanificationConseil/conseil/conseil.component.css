@@ -366,19 +366,19 @@ body {
 .participants-modal {
   display: none;
   position: fixed;
-  z-index: 1000;
+  z-index: 9999;
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
 }
 
 .participants-modal.show {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   animation: fadeIn 0.3s ease;
 }
 
@@ -392,6 +392,8 @@ body {
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   animation: slideUp 0.3s ease;
+  position: relative;
+  margin: auto;
 }
 
 .participants-header {
@@ -862,5 +864,86 @@ body {
     flex-direction: column;
     gap: 10px;
   }
+}
+
+/* Content Centering and Layout Fixes */
+:host {
+  display: block;
+  width: 100%;
+}
+
+.conseil-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+/* Ensure proper alignment */
+.container-fluid {
+  text-align: left;
+  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+}
+
+/* Fix any right alignment issues */
+* {
+  box-sizing: border-box;
+}
+
+/* Remove any unwanted margins or padding that could cause right alignment */
+.body-wrapper,
+.body-wrapper-inner {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* Ensure all main containers are properly centered */
+.welcome-header,
+.header-container,
+.stats-container {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+/* Additional responsive fixes */
+@media (max-width: 768px) {
+  .conseil-content {
+    padding: 0 0.5rem;
+  }
+
+  .welcome-header,
+  .header-container {
+    margin: 0 auto 2rem auto;
+  }
+}
+
+/* Force modal to be above everything and properly centered */
+.participants-modal {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 10000 !important;
+  transform: none !important;
+}
+
+.participants-modal.show {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Ensure modal content is centered */
+.participants-modal-content {
+  transform: none !important;
+  position: static !important;
 }
 

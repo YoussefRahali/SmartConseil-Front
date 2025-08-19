@@ -1,20 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
 import { Conseil } from './Conseil';
 import { Router } from '@angular/router';
 import { ConseilService } from '../conseil.service';
+import { HttpClientModule } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { Utilisateur } from 'src/app/utilisateur/Utilisateur';
 
 @Component({
   selector: 'app-conseil',
   templateUrl: './conseil.component.html',
-  styleUrls: ['./conseil.component.css'],
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule]
+  styleUrls: ['./conseil.component.css']
 })
 export class ConseilComponent implements OnInit {
 constructor(private formBuilder: FormBuilder,HttpClient:HttpClientModule,private conseilService:ConseilService,private router: Router ) { }

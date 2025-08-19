@@ -1,3 +1,4 @@
+import { Option } from "../option/Option"
 import { Salle } from "../salle/Salle"
 import { ConseilUtilisateur } from "./ConseilUtilisateur"
 
@@ -8,6 +9,7 @@ id!:number
 date!:Date
 duree!:string
     heure!: string
+    option!:Option
 
 description!:string
 salle!:Salle|null

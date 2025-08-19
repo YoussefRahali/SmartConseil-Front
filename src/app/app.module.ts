@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -24,16 +27,26 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { LayoutComponent } from './shared/layout/layout.component';
 import { DataFilterComponent } from './shared/data-filter/data-filter.component';
 import { ProfilePictureComponent } from './shared/profile-picture/profile-picture.component';
+
 // Services and Guards
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
+// PlanificationConseil Components
+import { ConseilComponent } from './PlanificationConseil/conseil/conseil.component';
+import { SalleComponent } from './PlanificationConseil/salle/salle.component';
+import { AjoutConsComponent } from './PlanificationConseil/ajout-cons/ajout-cons.component';
+import { ModifierConsComponent } from './PlanificationConseil/modifier-cons/modifier-cons.component';
+import { ListSalleComponent } from './PlanificationConseil/list-salle/list-salle.component';
+import { CouncilManagementComponent } from './CouncilManagement/council-management.component';
+import { EnseignantConseilComponent } from './PlanificationConseil/enseignant-conseil/enseignant-conseil.component';
+import { PresidentCoseilComponent } from './PlanificationConseil/president-coseil/president-coseil.component';
+import { SessionConseilComponent } from './PlanificationConseil/session-conseil/session-conseil.component';
+import { ConseilEnCoursComponent } from './PlanificationConseil/conseil-en-cours/conseil-en-cours.component';
+import { GestionOptionsComponent } from './PlanificationConseil/gestion-options/gestion-options.component';
+import { RappoteurConseilsComponent } from './rappoteur-conseils/rappoteur-conseils.component';
 
 @NgModule({
   declarations: [
@@ -57,11 +70,22 @@ import { RouterModule } from '@angular/router';
     SidebarComponent,
     LayoutComponent,
     DataFilterComponent,
-    ProfilePictureComponent
+    ProfilePictureComponent,
+    ConseilComponent,
+    SalleComponent,
+    AjoutConsComponent,
+    ModifierConsComponent,
+    ListSalleComponent,
+    CouncilManagementComponent,
+    EnseignantConseilComponent,
+    PresidentCoseilComponent,
+    ConseilEnCoursComponent,
+    SessionConseilComponent,
+    GestionOptionsComponent,
+    RappoteurConseilsComponent
   ],
   imports: [
     BrowserModule,
-    CommonModule,
     AppRoutingModule,
     RouterModule,
     HttpClientModule,

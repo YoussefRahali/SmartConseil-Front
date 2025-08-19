@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   reportServiceStatus = false;
   private wsService?: WebSocketService;
 
-  constructor(private http: HttpClient, private injector: Injector) {}
+  constructor(private http: HttpClient , private injector: Injector) {}
 
   ngOnInit(): void {
     // Add event listeners for browser close/refresh
@@ -46,7 +46,6 @@ export class AppComponent implements OnInit {
       // Service might not be available, ignore
     }
   }
-
   checkBackendServices(): void {
     // Check User Service
     this.http.get('http://localhost:8088/actuator/health', { responseType: 'text' })

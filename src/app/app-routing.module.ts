@@ -28,6 +28,8 @@ import { CouncilManagementComponent } from './CouncilManagement/council-manageme
 import { EnseignantConseilComponent } from './PlanificationConseil/enseignant-conseil/enseignant-conseil.component';
 import { PresidentCoseilComponent } from './PlanificationConseil/president-coseil/president-coseil.component';
 import { SessionConseilComponent } from './PlanificationConseil/session-conseil/session-conseil.component';
+import { GestionOptionsComponent } from './PlanificationConseil/gestion-options/gestion-options.component';
+import { RappoteurConseilsComponent } from './rappoteur-conseils/rappoteur-conseils.component';
 
 const routes: Routes = [
   // Public routes
@@ -36,6 +38,7 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'admin-setup', component: AdminSetupComponent },
   { path: 'test-backend', component: TestBackendComponent },
+    { path: 'rapporteurConseil', component: RappoteurConseilsComponent },
 
   // Protected routes with role-based access
   {
@@ -114,9 +117,15 @@ const routes: Routes = [
 {path:'motpasseoublie',component:MotpasseComponent},
 {path:'',redirectTo:'utilisateur',pathMatch:'full'} ,
 { path: 'reset-password', component:ResetPasswordComponent },
-{ path: 'president', component:PresidentCoseilComponent },
+{
+  path: 'president',
+  component: PresidentCoseilComponent,
+  canActivate: [AuthGuard, RoleGuard],
+  data: { roles: ['president'] }
+},
 {path:'enseignant-conseil',component:EnseignantConseilComponent},
 {path:'session-conseil/:id',component:SessionConseilComponent},
+{path:'gestion-options',component:GestionOptionsComponent},
 
   // Wildcard route - redirect to login
   { path: '**', redirectTo: 'utilisateur' }

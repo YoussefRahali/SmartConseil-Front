@@ -143,6 +143,8 @@ logout(): void {
       this.router.navigate(['/dashboard-rapporteur']);
     } else if (role === 'admin') {
       this.router.navigate(['/dashboard-admin']);
+    } else if (role === 'president') {
+      this.router.navigate(['/president']);
     } else {
       this.router.navigate(['/dashboard']);
     }

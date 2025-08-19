@@ -1,17 +1,17 @@
 import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { Conseil } from '../conseil/Conseil';
-import { ConseilService } from '../conseil.service';
-import { Utilisateur } from '../../utilisateur/Utilisateur';
-import { WebSocketService } from '../web-socket-service.service';
+import { Conseil } from '../PlanificationConseil/conseil/Conseil';
+import { Utilisateur } from '../utilisateur/Utilisateur';
+import { ConseilService } from '../PlanificationConseil/conseil.service';
+import * as XLSX from 'xlsx';
+import { ExcelImportService } from '../PlanificationConseil/excel-import/excel-import.service';
 
 @Component({
-  selector: 'app-enseignant-conseil',
-  templateUrl: './enseignant-conseil.component.html',
-  styleUrls: ['./enseignant-conseil.component.css']
+  selector: 'app-rappoteur-conseils',
+  templateUrl: './rappoteur-conseils.component.html',
+  styleUrls: ['./rappoteur-conseils.component.css']
 })
-export class EnseignantConseilComponent implements OnInit, OnDestroy {
-
+export class RappoteurConseilsComponent {
   conseils: Conseil[] = [];
   users: Utilisateur[] = [];
   token: string | null = null;
@@ -44,7 +44,7 @@ export class EnseignantConseilComponent implements OnInit, OnDestroy {
   ];
   conseilsFiler!: Conseil[];
 
-  private wsService?: WebSocketService;
+
 
   constructor(
     private conseilService: ConseilService,
@@ -80,37 +80,17 @@ getConseilsByUtilisateurId(): void {
     console.log("Tous les conseils reçus du backend :", allConseils);
 
     allConseils.forEach(c => {
-      console.log(`Conseil ${c.id} => utilisateurs :`, c.conseilUtilisateurs);
+      console.log(`Conseil ${c.id} => utilisateurs :`, c.raporteurId);
     });
 
   this.conseils = allConseils.filter(conseil => {
-  const participants = (conseil as any).participants;
-  return Array.isArray(participants) && participants.some(p => p.utilisateurId === utilisateurId);
+
+    return conseil.raporteurId === Number(this.id);
 });
 this.conseilsFiler = this.conseils.filter(conseil => conseil.etat === true);
 
-this.conseils.forEach(conseil => {
-  const userParticipation = (conseil as any).participants?.find((p: any) => p.utilisateurId === utilisateurId);
-this.conseilStatus[conseil.id] = conseil.deroulement as any
-
-  if (userParticipation) {
-    const message = userParticipation.message?.toLowerCase(); 
-
-    if (message === 'accepté' || message === 'accepted') {
-      this.userAcceptanceStatus[conseil.id] = 'accepted';
-    } else if (message === 'refusé' || message === 'rejected') {
-      this.userAcceptanceStatus[conseil.id] = 'rejected';
-    } else {
-      this.userAcceptanceStatus[conseil.id] = 'pending';
-    }
-  } else {
-    this.userAcceptanceStatus[conseil.id] = 'pending';
-  }
-});
 
 
-    console.log("Mes conseils filtrés :", this.conseils);
-    console.log("Statuts d'acceptation :", this.userAcceptanceStatus);
   });
 }
 
@@ -383,12 +363,7 @@ getStatusColor(status: string): string {
   }
 }
 
-ngOnDestroy(): void {
-  // Clean up WebSocket connection when component is destroyed
-  if (this.wsService) {
-    this.wsService.disconnect();
-  }
-}
+
 
 /**
  * Méthode pour simuler des participants (pour les tests sans backend WebSocket)
@@ -426,6 +401,24 @@ private simulateParticipants(conseilId: number, currentUser: string): void {
  */
 getParticipantsCount(conseilId: number): number {
   return this.participantsEnLigne[conseilId]?.length || 0;
+}
+
+// Add this method to export eleve data for a conseil to Excel
+exportExcelForConseil(conseilId: number) {
+
+  const excelImportService = this.injector.get(ExcelImportService);
+  excelImportService.getExcelDataEleveByConseilId(conseilId).subscribe((eleves: any[]) => {
+    if (!eleves || eleves.length === 0) {
+      alert('Aucune donnée élève à exporter pour ce conseil.');
+      return;
+    }
+    const worksheet = XLSX.utils.json_to_sheet(eleves);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'DataEleve');
+    XLSX.writeFile(workbook, `data_eleve_conseil_${conseilId}.xlsx`);
+  }, error => {
+    alert('Erreur lors de la récupération des données élève.');
+  });
 }
 
 }

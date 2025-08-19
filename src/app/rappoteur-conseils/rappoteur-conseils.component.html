@@ -1,6 +1,8 @@
 <app-layout>
-  <div class="president-content">
-    <div class="header-container">
+  <div class="enseignant-content">
+<!-- Bouton pour ouvrir la modale -->
+
+<div class="header-container">
   <div class="header-text">
     <h2>Gestion des Conseils</h2>
     <p>Module 1 - Gestion des Planification et Conseil</p>
@@ -270,6 +272,56 @@
       border: 1px solid #f59e0b;
     }
 
+    /* Styles pour les états de séance - tous en gris */
+    .status-item.pas-debute {
+      background-color: #f3f4f6;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+    }
+
+    .status-item.en-cours {
+      background-color: #f3f4f6;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+    }
+
+    .status-item.termine {
+      background-color: #f3f4f6;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+    }
+
+    /* Style pour le bouton Rejoindre */
+    .rejoindre-btn {
+      margin-left: auto;
+      padding: 8px 16px;
+      background-color: #10b981;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .rejoindre-btn:hover {
+      background-color: #059669;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Modifier l'affichage pour placer le bouton à droite */
+    .acceptance-status-display {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
     .status-item .acceptance-icon {
       font-size: 18px;
     }
@@ -469,6 +521,84 @@
   background-color: #2563eb;
 }
 
+/* Styles pour la barre des participants */
+.participants-bar {
+  margin-top: 15px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.participants-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+}
+
+.participants-header i {
+  color: #10b981;
+  font-size: 16px;
+}
+
+.participants-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.participant-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.participant-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.participant-avatar {
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+}
+
+.participant-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.participant-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: 4px;
+}
+
+.participant-status.online {
+  background-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
   </style>
           <!--  Row 1 -->
           <div class="row">
@@ -531,11 +661,11 @@
   <img src="assets/images/logos/calendar.JPG"  style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
   Voir calendrier complet
 </button>
-
-
+   
+      
     </div>
-  </div>
-
+  </div>  
+  
   <div class="big-card">
   <!-- tout ton contenu ici (calendrier, actions, h2, *ngFor, etc.) -->
 
@@ -545,9 +675,9 @@
   <div class="subtext">Liste détaillée des conseils de classe</div>
 
 
-
+ 
   <!-- Deuxième carte -->
-<div *ngFor="let conseil of conseils" class="card">
+<div *ngFor="let conseil of conseilsFiler" class="card">
  <div class="header">
   <img src="assets/images/logos/calendar.JPG" alt="Calendrier" style="width: 28px; height: 28px; vertical-align: middle; margin-right: 5px;">
     <div style="display: flex; flex-direction: column;">
@@ -585,49 +715,46 @@
   <div class="info-block"><strong>Rapporteur:</strong> Dr.{{ getNomUtilisateur(conseil.raporteurId) }}</div>
 </div>
 
-<!-- Statut de la séance -->
-<div class="seance-status-section">
-  <div class="seance-status-header">
-    <i class="ti ti-clock"></i>
-    <span>État de la séance:</span>
+
+
+
+  <div class="buttons">
+    <button class="accepter-btn"
+            [ngClass]="{'active': getAcceptanceStatus(conseil.id) === 'accepted'}"
+            (click)="accepterConseil(conseil.id)">
+      <i class="ti ti-check"></i> Accepter
+    </button>
+    <button class="rejeter-btn"
+            [ngClass]="{'active': getAcceptanceStatus(conseil.id) === 'rejected'}"
+            (click)="rejeterConseil(conseil.id)">
+      <i class="ti ti-x"></i> Rejeter
+    </button>
+    <button class="confirm-btn" (click)="exportExcelForConseil(conseil.id)">
+      <i class="ti ti-download"></i> Exporter Excel
+    </button>
   </div>
-  <div class="seance-status-display">
-    <span class="seance-status-badge"
-          [style.background-color]="getStatusColor(getConseilStatus(conseil.id))"
-          [style.color]="'white'">
-      {{ getStatusText(getConseilStatus(conseil.id)) }}
-    </span>
+
+  <!-- Input de justification pour le rejet -->
+  <div class="justification-section" *ngIf="showJustificationInput[conseil.id]">
+    <div class="justification-header">
+      <i class="ti ti-message-circle"></i>
+      <span>Justification du rejet :</span>
+    </div>
+    <textarea
+      class="justification-input"
+      [(ngModel)]="justificationText[conseil.id]"
+      placeholder="Veuillez saisir la raison de votre rejet..."
+      rows="3">
+    </textarea>
+    <div class="justification-buttons">
+      <button class="submit-justification-btn" (click)="submitRejectionWithJustification(conseil.id)">
+        <i class="ti ti-send"></i> Confirmer le rejet
+      </button>
+      <button class="cancel-justification-btn" (click)="cancelJustification(conseil.id)">
+        <i class="ti ti-x"></i> Annuler
+      </button>
+    </div>
   </div>
-</div>
-
-
-<div class="seance-controls">
-  <button *ngIf="getConseilStatus(conseil.id) === 'pas-debute'"
-          class="control-btn start-btn"
-          (click)="demarrerConseil(conseil.id)">
-    <i class="ti ti-play"></i> Démarrer la séance
- </button>
-
-
-  <button *ngIf="getConseilStatus(conseil.id) === 'en-cours'"
-          class="control-btn end-btn"
-          (click)="terminerConseil(conseil.id)">
-    <i class="ti ti-square"></i> Terminer la séance
-  </button>
-
-
-  <button *ngIf="getConseilStatus(conseil.id) === 'termine'"
-          class="control-btn resume-btn"
-          (click)="reprendreConseilEnCours(conseil.id)">
-    <i class="ti ti-refresh"></i> Reprendre la séance
-  </button>
-</div>
-
-
-
-
-
-
 
 </div>
 <!-- End of conseil card -->

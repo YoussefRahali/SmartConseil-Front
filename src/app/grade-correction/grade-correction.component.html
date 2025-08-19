@@ -1,17 +1,13 @@
 <app-layout>
   <div class="row">
     <div class="col-12">
-      <div class="welcome-header mb-4">
-        <h1><i class="ti ti-edit me-2"></i>Demande de Rectification de Notes</h1>
-        <p>Soumettez vos demandes de rectification de notes avec justification</p>
-      </div>
 
       <!-- Success/Error Messages -->
       <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
         {{ successMessage }}
         <button type="button" class="btn-close" (click)="successMessage = ''" aria-label="Close"></button>
       </div>
-
+      
       <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
         {{ errorMessage }}
         <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
@@ -28,24 +24,24 @@
               <div class="col-md-6">
                 <div class="mb-3">
                   <label for="etudiantPrenom" class="form-label">Prénom de l'étudiant *</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="etudiantPrenom"
-                    [(ngModel)]="formData.etudiantPrenom"
-                    name="etudiantPrenom"
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="etudiantPrenom" 
+                    [(ngModel)]="formData.etudiantPrenom" 
+                    name="etudiantPrenom" 
                     required>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="mb-3">
                   <label for="etudiantNom" class="form-label">Nom de l'étudiant *</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="etudiantNom"
-                    [(ngModel)]="formData.etudiantNom"
-                    name="etudiantNom"
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="etudiantNom" 
+                    [(ngModel)]="formData.etudiantNom" 
+                    name="etudiantNom" 
                     required>
                 </div>
               </div>
@@ -70,9 +66,9 @@
               </div>
 
               <!-- Option -->
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="mb-3">
-                  <label for="option" class="form-label">Option / Niveau *</label>
+                  <label for="option" class="form-label">Option *</label>
                   <select
                     class="form-select"
                     id="option"
@@ -87,25 +83,8 @@
                 </div>
               </div>
 
-              <!-- Module -->
-              <div class="col-md-3">
-                <div class="mb-3">
-                  <label for="module" class="form-label">Module *</label>
-                  <select
-                    class="form-select"
-                    id="module"
-                    name="module"
-                    [(ngModel)]="formData.module"
-                    [disabled]="!selectedOption"
-                    required>
-                    <option value="">Sélectionner un module</option>
-                    <option *ngFor="let m of modules" [value]="m">{{ m }}</option>
-                  </select>
-                </div>
-              </div>
-
               <!-- Classe -->
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="mb-3">
                   <label for="classe" class="form-label">Classe *</label>
                   <select
@@ -120,58 +99,36 @@
                   </select>
                 </div>
               </div>
-
-              <!-- Type de note -->
-              <div class="col-md-3">
-                <div class="mb-3">
-                  <label for="typeNote" class="form-label">Type de note *</label>
-                  <select class="form-select" id="typeNote" name="typeNote" [(ngModel)]="formData.typeNote" required>
-                    <option value="">Sélectionner un type</option>
-                    <option *ngFor="let t of typeNotes" [value]="t">{{ t }}</option>
-                  </select>
-                </div>
-              </div>
-
-              <!-- Session -->
-              <div class="col-md-3">
-                <div class="mb-3">
-                  <label for="session" class="form-label">Session *</label>
-                  <select class="form-select" id="session" name="session" [(ngModel)]="formData.session" required>
-                    <option value="">Sélectionner une session</option>
-                    <option *ngFor="let s of sessions" [value]="s">{{ s }}</option>
-                  </select>
-                </div>
-              </div>
             </div>
 
             <div class="row">
               <div class="col-md-6">
                 <div class="mb-3">
                   <label for="ancienneNote" class="form-label">Ancienne Note *</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="ancienneNote"
-                    [(ngModel)]="formData.ancienneNote"
-                    name="ancienneNote"
-                    min="0"
-                    max="20"
-                    step="0.01"
+                  <input 
+                    type="number" 
+                    class="form-control" 
+                    id="ancienneNote" 
+                    [(ngModel)]="formData.ancienneNote" 
+                    name="ancienneNote" 
+                    min="0" 
+                    max="20" 
+                    step="0.01" 
                     required>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="mb-3">
                   <label for="nouvelleNote" class="form-label">Nouvelle Note *</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="nouvelleNote"
-                    [(ngModel)]="formData.nouvelleNote"
-                    name="nouvelleNote"
-                    min="0"
-                    max="20"
-                    step="0.01"
+                  <input 
+                    type="number" 
+                    class="form-control" 
+                    id="nouvelleNote" 
+                    [(ngModel)]="formData.nouvelleNote" 
+                    name="nouvelleNote" 
+                    min="0" 
+                    max="20" 
+                    step="0.01" 
                     required>
                 </div>
               </div>
@@ -188,9 +145,9 @@
               </select>
             </div>
 
-            <button
-              type="submit"
-              class="btn btn-primary"
+            <button 
+              type="submit" 
+              class="btn btn-primary" 
               [disabled]="isSubmitting || !rectificationForm.form.valid">
               <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status"></span>
               {{ isSubmitting ? 'Envoi en cours...' : 'Soumettre la demande' }}
@@ -198,17 +155,6 @@
           </form>
         </div>
       </div>
-      <!-- Filters for My Requests -->
-      <div class="card mb-3" *ngIf="myRequests.length > 0">
-        <div class="card-body">
-          <app-data-filter
-            [config]="myRequestsFilterConfig"
-            [data]="myRequests"
-            (filterChange)="onMyRequestsFilterChange($event)">
-          </app-data-filter>
-        </div>
-      </div>
-
 
       <!-- My Requests -->
       <div class="card mb-4">
@@ -226,9 +172,6 @@
                   <th>Étudiant</th>
                   <th>Classe</th>
                   <th>Option</th>
-                  <th>Module</th>
-                  <th>Type</th>
-                  <th>Session</th>
                   <th>Ancienne Note</th>
                   <th>Nouvelle Note</th>
                   <th>Statut</th>
@@ -236,13 +179,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let request of (filteredMyRequests.length ? filteredMyRequests : myRequests)">
+                <tr *ngFor="let request of myRequests">
                   <td>{{ request.etudiantPrenom }} {{ request.etudiantNom }}</td>
                   <td>{{ request.classe }}</td>
                   <td>{{ request.option }}</td>
-                  <td>{{ request.module || '-' }}</td>
-                  <td>{{ request.typeNote || '-' }}</td>
-                  <td>{{ request.session || '-' }}</td>
                   <td>{{ request.ancienneNote }}</td>
                   <td>{{ request.nouvelleNote }}</td>
                   <td>
@@ -268,26 +208,12 @@
             Aucun historique disponible.
           </div>
           <div *ngIf="history.length > 0" class="table-responsive">
-      <!-- Filters for History -->
-      <div class="card mb-3" *ngIf="history.length > 0">
-        <div class="card-body">
-          <app-data-filter
-            [config]="historyFilterConfig"
-            [data]="history"
-            (filterChange)="onHistoryFilterChange($event)">
-          </app-data-filter>
-        </div>
-      </div>
-
             <table class="table table-striped">
               <thead>
                 <tr>
                   <th>Étudiant</th>
                   <th>Classe</th>
                   <th>Option</th>
-                  <th>Module</th>
-                  <th>Type</th>
-                  <th>Session</th>
                   <th>Ancienne Note</th>
                   <th>Nouvelle Note</th>
                   <th>Statut</th>
@@ -297,13 +223,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of (filteredHistory.length ? filteredHistory : history)">
+                <tr *ngFor="let item of history">
                   <td>{{ item.etudiantPrenom }} {{ item.etudiantNom }}</td>
                   <td>{{ item.classe }}</td>
                   <td>{{ item.option }}</td>
-                  <td>{{ item.module || '-' }}</td>
-                  <td>{{ item.typeNote || '-' }}</td>
-                  <td>{{ item.session || '-' }}</td>
                   <td>{{ item.ancienneNote }}</td>
                   <td>{{ item.nouvelleNote }}</td>
                   <td>
@@ -324,7 +247,7 @@
   </div>
 </app-layout>
 
-<!-- SMS Verification Modal
+<!-- SMS Verification Modal 
 <div class="modal" [class.show]="showSmsModal" [style.display]="showSmsModal ? 'block' : 'none'" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -336,11 +259,11 @@
         <p>Un code de vérification a été envoyé par SMS. Veuillez saisir le code reçu :</p>
         <div class="mb-3">
           <label for="smsCode" class="form-label">Code SMS</label>
-          <input
-            type="text"
-            class="form-control"
-            id="smsCode"
-            [(ngModel)]="smsVerification.smsCode"
+          <input 
+            type="text" 
+            class="form-control" 
+            id="smsCode" 
+            [(ngModel)]="smsVerification.smsCode" 
             placeholder="Saisir le code à 6 chiffres"
             maxlength="6">
         </div>
@@ -350,10 +273,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="closeSmsModal()">Annuler</button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="onVerifySms()"
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          (click)="onVerifySms()" 
           [disabled]="isVerifying || !smsVerification.smsCode">
           <span *ngIf="isVerifying" class="spinner-border spinner-border-sm me-2" role="status"></span>
           {{ isVerifying ? 'Vérification...' : 'Vérifier' }}

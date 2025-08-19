@@ -1,22 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
 import { Conseil } from '../conseil/Conseil';
 import { ConseilService } from '../conseil.service';
 import { Utilisateur } from '../../utilisateur/Utilisateur';
-
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-president-coseil',
   templateUrl: './president-coseil.component.html',
-  styleUrls: ['./president-coseil.component.css'],
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule]
+  styleUrls: ['./president-coseil.component.css']
 })
 
 export class PresidentCoseilComponent implements OnInit {
-
+  currentUser: any = null;
   conseils: Conseil[] = [];
   users: Utilisateur[] = [];
   token: string | null = null;
@@ -46,9 +40,17 @@ export class PresidentCoseilComponent implements OnInit {
   ];
   conseilsFiler!: Conseil[];
 
-  constructor(private conseilService: ConseilService) { }
+  constructor(
+    private conseilService: ConseilService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+    // Initialize current user
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
+
     this.token = sessionStorage.getItem('token');
     this.nom = sessionStorage.getItem('username');
     this.id = sessionStorage.getItem('id');
